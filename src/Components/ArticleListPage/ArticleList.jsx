@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
 import ArticleCard from './ArticleCard';
-import * as api from '../api';
-import ArticleFilter from './ArticleFilter';
+import * as api from '../../api';
+import ArticleFilterAndSort from './ArticleFilterAndSort';
 import ArticlesPagination from './ArticlesPagination';
+import ArticleSort from './ArticleSort';
 
 class ArticleList extends Component {
   state = {
     isLoading: true,
     articles: [],
     total_count: 0,
-    p: 1
+    p: 1,
+    topics: [],
+    selectedTopic: 'all',
+    sort_by: 'created_at'
   };
 
   render() {
-    const { articles, p, total_count } = this.state;
-    if (this.state.isLoading) {
+    const { articles, p, total_count, topics, isLoading } = this.state;
+    if (isLoading) {
       return <p>Loading...</p>;
     } else {
       return (
         <main>
-          <ArticleFilter />
+          <ArticleFilterAndSort
+            topics={topics}
+            updateSelectedTopic={this.updateSelectedTopic}
+            updateSortBy={this.updateSortBy}
+          />
+          <ArticleSort />
           <ul>
             {articles.map(article => {
               return (
@@ -45,10 +54,18 @@ class ArticleList extends Component {
     api.getArticles(this.state).then(data => {
       this.fetchArticles();
     });
+    api.getTopics().then(topics => {
+      this.setState({ topics: [{ slug: 'all' }, ...topics] });
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.p !== this.state.p || this.state.trigger) {
+    if (
+      prevState.p !== this.state.p ||
+      this.state.trigger ||
+      prevState.selectedTopic !== this.state.selectedTopic ||
+      prevState.sort_by !== this.state.sort_by
+    ) {
       this.fetchArticles();
     }
   }
@@ -93,6 +110,14 @@ class ArticleList extends Component {
         return { p: newP };
       });
     }
+  };
+
+  updateSelectedTopic = selectedTopic => {
+    this.setState({ selectedTopic });
+  };
+
+  updateSortBy = sort_by => {
+    this.setState({ sort_by });
   };
 }
 

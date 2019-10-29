@@ -43,3 +43,31 @@ ul {
 .title {
   grid-column: 1 / span 3;
 }
+
+.comment-card {
+  background-color: burlywood;
+  border: black solid 1px;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.comment-posted {
+  grid-column: 1 / span 2;
+}
+
+.comment-body {
+  grid-column: 1 / span 2;
+}
+
+.comment-votes-container {
+  grid-column: 1 / span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  background-color: cadetblue;
+}
+
+.number-of-comment-votes {
+  grid-row: 1 / span 2;
+}

@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import Header from './Components/Header';
 import { Router } from '@reach/router';
-import ArticleList from './Components/ArticleList';
+import ArticleList from './Components/ArticleListPage/ArticleList';
+import SingleArticlePage from './Components/SingleArticlePage/SingleArticlePage';
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Header />
       <Router>
         <ArticleList path="/" />
+        <ArticleList path="/articles" />
+        <SingleArticlePage path="/articles/:article_id/*" />
       </Router>
     </>
   );

@@ -1,11 +1,16 @@
 import React from 'react';
+import { Link } from '@reach/router';
 
 function ArticleCard({ article, vote }) {
   return (
     <li className="article-card">
       <p className="topic">{article.topic}</p>
       <p className="title">
-        "{article.title}" by {article.author}
+        "
+        <Link to={`/articles/${article.article_id}`}>
+          <i>{article.title}</i>
+        </Link>
+        " by {article.author}
       </p>
       <p className="comments">Comments: {article.comment_count}</p>
       <div className="votes-container">
