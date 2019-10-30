@@ -40,6 +40,11 @@ class App extends Component {
             users={this.state.users}
             userChange={this.state.userChange}
           />
+          <ArticleList
+            path="/users/:username/articles"
+            users={this.state.users}
+            userChange={this.state.userChange}
+          />
           <SingleArticlePage
             path="/articles/:article_id/*"
             users={this.state.loggedInUser}
@@ -53,7 +58,7 @@ class App extends Component {
 
   componentDidMount() {
     api.getUsers().then(users => {
-      this.setState({ users, isLoading: false });
+      this.setState({ users, isLoading: false, userChange: 0 });
     });
   }
 

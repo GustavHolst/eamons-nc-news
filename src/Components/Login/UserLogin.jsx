@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 class UserLogin extends Component {
   state = {
-    username: ''
+    username: '',
+    usernameNotRecognised: false
   };
 
   render() {
     return (
-      <div>
+      <main className="login">
         <form onSubmit={this.handleSubmit}>
           <label>
             Input your username: <input type="text" />
@@ -15,7 +16,13 @@ class UserLogin extends Component {
           <button type="submit">Enter</button>
         </form>
         <button onClick={this.props.enterAsGuest}>Enter as guest</button>
-      </div>
+        {this.state.usernameNotRecognised ? (
+          <p>
+            Username not recognised. Please try again or feel free to enter as a
+            guest
+          </p>
+        ) : null}
+      </main>
     );
   }
 
@@ -29,7 +36,7 @@ class UserLogin extends Component {
     if (usernames.includes(username)) {
       this.props.logUserIn(username);
     } else {
-      alert('Username not recognised');
+      this.setState({ usernameNotRecognised: true });
     }
   };
 }

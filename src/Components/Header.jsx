@@ -9,30 +9,30 @@ class Header extends Component {
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     return (
       <header>
-        <h1>NC News</h1>
-        <div>
-          <p>Hi, {loggedInUser.name.split(' ')[0]}</p>
-          <img
-            src={loggedInUser.avatar_url}
-            alt="user avatar"
-            id="header-avatar"
-          />
-          {loggedInUser.username !== 'guest' ? (
-            <>
-              <p>my account</p>
-              <button onClick={this.handleLogOut}>log out</button>
-            </>
-          ) : (
-            <Link to="/">
-              <button>log in</button>
+        <Link to="/articles">
+          <h1>NC News</h1>
+        </Link>
+        {loggedInUser.username !== 'guest' ? (
+          <div>
+            <p>Hi, {loggedInUser.name.split(' ')[0]}</p>
+            <Link to={`/users/${loggedInUser.username}`}>
+              <img
+                src={loggedInUser.avatar_url}
+                alt="user avatar"
+                id="header-avatar"
+              />
             </Link>
-          )}
-        </div>
+            <button onClick={this.handleLogOut}>log out</button>
+          </div>
+        ) : (
+          <Link to="/">
+            <p id="header-login">log in</p>
+          </Link>
+        )}
       </header>
     );
   }
   handleLogOut = () => {
-    alert('you have logged out');
     setUserAsGuest();
     this.props.toggleUserChange();
   };

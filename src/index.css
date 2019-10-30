@@ -2,7 +2,6 @@
   margin: 0px;
   padding: 0px;
 }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -17,10 +16,33 @@ code {
 }
 
 header {
+  position: fixed;
+  width: 100%;
+  height: 200px;
   display: flex;
   background-color: blanchedalmond;
   align-items: center;
   justify-content: center;
+}
+
+.login {
+  padding-top: 200px;
+}
+
+.single-article-page {
+  padding-top: 200px;
+}
+
+.article-cards-container {
+  padding-top: 240px;
+}
+
+.article-filter-and-sort {
+  margin-top: 200px;
+  width: 100%;
+  background-color: rgb(240, 105, 105);
+  position: fixed;
+  height: 40px;
 }
 
 ul {
@@ -30,18 +52,34 @@ ul {
 .article-card {
   width: 800px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 6fr 1fr;
   border: black 2px solid;
   margin: 3px;
 }
 
-.votes-container {
+.article-card-author-container {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
   display: flex;
 }
 
-.topic,
-.title {
-  grid-column: 1 / span 3;
+.article-card-author-img {
+  width: 40px;
+}
+
+.article-card-topic {
+  grid-row: 2 / span 1;
+}
+
+.article-card-title {
+  grid-row: 3 / span 1;
+}
+
+.article-card-voter-container {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 3;
+  background-color: blanchedalmond;
+  align-items: center;
 }
 
 .comment-card {

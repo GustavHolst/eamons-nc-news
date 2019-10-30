@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from '@reach/router';
 
 class CommentAdder extends Component {
   state = {
@@ -6,21 +7,33 @@ class CommentAdder extends Component {
   };
 
   render() {
-    return (
-      <form id="comment-form" onSubmit={this.handleSubmit}>
-        <label>
-          Add your comment here:
-          <input
-            id="comment-body-input"
-            type="text"
-            value={this.state.comment_body}
-            onChange={this.handleCommentChange}
-            required
-          />
-        </label>
-        <button type="submit">Post Comment</button>
-      </form>
-    );
+    const { loggedInUser } = this.props;
+    if (loggedInUser.username !== 'guest') {
+      return (
+        <form id="comment-form" onSubmit={this.handleSubmit}>
+          <label>
+            Add your comment here:
+            <input
+              id="comment-body-input"
+              type="text"
+              value={this.state.comment_body}
+              onChange={this.handleCommentChange}
+              required
+            />
+          </label>
+          <button type="submit">Post Comment</button>
+        </form>
+      );
+    } else {
+      return (
+        <p>
+          <Link to="/">
+            <i>Log in</i>
+          </Link>{' '}
+          to get involved in the conversation
+        </p>
+      );
+    }
   }
 
   handleCommentChange = ({ target: { value } }) => {

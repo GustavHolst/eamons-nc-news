@@ -3,7 +3,6 @@ import ArticleCard from './ArticleCard';
 import * as api from '../../api';
 import ArticleFilterAndSort from './ArticleFilterAndSort';
 import Pagination from '../Pagination';
-import ArticleSort from './ArticleSort';
 
 class ArticleList extends Component {
   state = {
@@ -12,8 +11,9 @@ class ArticleList extends Component {
     total_count: 0,
     p: 1,
     topics: [],
-    selectedTopic: 'all',
-    sort_by: 'created_at'
+    topic: 'all',
+    sort_by: 'created_at',
+    order: 'desc'
   };
 
   render() {
@@ -26,17 +26,16 @@ class ArticleList extends Component {
         <main>
           <ArticleFilterAndSort
             topics={topics}
-            updateSelectedTopic={this.updateSelectedTopic}
+            updateTopic={this.updateTopic}
             updateSortBy={this.updateSortBy}
+            updateOrderBy={this.updateOrderBy}
           />
-          <ArticleSort />
-          <ul>
+          <ul className="article-cards-container">
             {articles.map(article => {
               return (
                 <ArticleCard
                   key={article.article_id}
                   article={article}
-                  vote={this.vote}
                   deleteArticle={this.deleteArticle}
                 />
               );
@@ -57,15 +56,22 @@ class ArticleList extends Component {
     api.getTopics().then(topics => {
       this.setState({ topics: [{ slug: 'all' }, ...topics] });
     });
+    if (this.props.topic) {
+      this.setState({ topic: this.props.topic });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.p !== this.state.p ||
-      prevState.selectedTopic !== this.state.selectedTopic ||
-      prevState.sort_by !== this.state.sort_by
+      prevState.topic !== this.state.topic ||
+      prevState.sort_by !== this.state.sort_by ||
+      prevState.order !== this.state.order
     ) {
       this.fetchArticles();
+    }
+    if (prevProps.topic !== this.props.topic) {
+      this.setState({ topic: this.props.topic });
     }
   }
 
@@ -73,27 +79,6 @@ class ArticleList extends Component {
     api.getArticles(this.state).then(data => {
       const { articles, total_count } = data;
       this.setState({ articles, total_count, isLoading: false });
-    });
-  };
-
-  vote = event => {
-    const [voteDirection, article_id] = event.target.id.split(',');
-    const inc_votes = voteDirection === 'upvote' ? 1 : -1;
-    api.voteOnArticle(article_id, inc_votes).then(() => {
-      this.setState(currentState => {
-        const newArticles = currentState.articles.map(article => {
-          const currentVotes = article.votes;
-          if (article.article_id === parseInt(article_id)) {
-            return {
-              ...article,
-              votes:
-                voteDirection === 'upvote' ? currentVotes + 1 : currentVotes - 1
-            };
-          }
-          return { ...article };
-        });
-        return { articles: newArticles };
-      });
     });
   };
 
@@ -111,12 +96,16 @@ class ArticleList extends Component {
     }
   };
 
-  updateSelectedTopic = selectedTopic => {
-    this.setState({ selectedTopic });
+  updateTopic = topic => {
+    this.setState({ topic });
   };
 
   updateSortBy = sort_by => {
     this.setState({ sort_by });
+  };
+
+  updateOrderBy = order => {
+    this.setState({ order });
   };
 }
 

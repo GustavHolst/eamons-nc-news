@@ -1,16 +1,25 @@
 import React from 'react';
 
-function ArticleFilterAndSort({ topics, updateSelectedTopic, updateSortBy }) {
+function ArticleFilterAndSort({
+  topics,
+  updateTopic,
+  updateSortBy,
+  updateOrderBy
+}) {
   const handleTopicChange = event => {
-    updateSelectedTopic(event.target.value);
+    updateTopic(event.target.value);
   };
 
   const handleSortChange = event => {
     updateSortBy(event.target.value);
   };
 
+  const handleOrderChange = event => {
+    updateOrderBy(event.target.value);
+  };
+
   return (
-    <form>
+    <form className="article-filter-and-sort">
       <label>
         Filter by topic:{' '}
         <select onChange={handleTopicChange}>
@@ -30,6 +39,13 @@ function ArticleFilterAndSort({ topics, updateSelectedTopic, updateSortBy }) {
           <option value="created_at">Date Posted</option>
           <option value="comment_count">Number of Comments</option>
           <option value="votes">Votes</option>
+        </select>
+      </label>
+      <label>
+        Order:{' '}
+        <select onChange={handleOrderChange}>
+          <option value="desc">High > Low</option>
+          <option value="asc">Low > High</option>
         </select>
       </label>
     </form>

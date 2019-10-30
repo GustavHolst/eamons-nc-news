@@ -1,36 +1,26 @@
 import React from 'react';
+import Voter from '../Voter';
+import { Link } from '@reach/router';
 
-function CommentCard({ comment, voteOnComment, deleteComment, loggedInUser }) {
-  const { comment_id, author, body, created_at, votes } = comment;
+function CommentCard({ comment, deleteComment, loggedInUser }) {
+  const { comment_id, author, body, created_at } = comment;
   return (
     <section className="comment-card">
       <p className="comment-posted">
-        Posted by {author} on {created_at.slice(0, 10)}
+        Posted by{' '}
+        <Link to={`/users/${comment.author}`}>
+          <i>{author}</i>{' '}
+        </Link>
+        on {created_at.slice(0, 10)}
       </p>
       <div className="comment-body">
         <p>{body}</p>
       </div>
-      <div className="comment-votes-container">
-        <p className="number-of-comment-votes">Votes: {votes}</p>
-        <span
-          role="img"
-          aria-label="upvote"
-          className="comment-upvote"
-          id={`1,${comment_id}`}
-          onClick={voteOnComment}
-        >
-          ⬆️
-        </span>
-        <span
-          role="img"
-          aria-label="downvote"
-          className="comment-downvote"
-          id={`-1,${comment_id}`}
-          onClick={voteOnComment}
-        >
-          ⬇️
-        </span>
-      </div>
+      <Voter
+        item_id={comment.comment_id}
+        voteOn="Comment"
+        votes={comment.votes}
+      />
       {loggedInUser.username === author ? (
         <button onClick={deleteComment} id={comment_id}>
           Delete

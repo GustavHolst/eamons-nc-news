@@ -17,7 +17,7 @@ function ArticlesPagination({ p, total_count, changePage }) {
       </i>
 
       {p >= Math.ceil(total_count / 10) ? (
-        <button disabled>Previous Page</button>
+        <button disabled>Next Page</button>
       ) : (
         <button onClick={changePage} id="next-page">
           Next Page

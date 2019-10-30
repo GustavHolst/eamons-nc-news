@@ -4,10 +4,11 @@ const request = axios.create({
   baseURL: 'https://eamons-nc-news.herokuapp.com/api'
 });
 
-export const getArticles = ({ p, topic, sort_by, author }) => {
+export const getArticles = ({ p, topic, sort_by, author, order }) => {
   if (topic === 'all') topic = '';
+
   return request
-    .get('/articles', { params: { p, topic, sort_by, author } })
+    .get('/articles', { params: { p, topic, sort_by, author, order } })
     .then(({ data }) => data);
 };
 

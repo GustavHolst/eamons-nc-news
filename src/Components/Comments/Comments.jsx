@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from '@reach/router';
 import * as api from '../../api';
 import CommentCard from './CommentCard';
 import Pagination from '../Pagination';
@@ -14,7 +13,7 @@ class Comments extends Component {
   };
 
   render() {
-    const { toggleCommentDisplay, article_id, loggedInUser } = this.props;
+    const { article_id, loggedInUser } = this.props;
     const { comments, isLoading, p, total_count } = this.state;
 
     if (isLoading) {
@@ -22,16 +21,16 @@ class Comments extends Component {
     } else {
       return (
         <section>
-          <Link to="../">
-            <button onClick={toggleCommentDisplay}>Hide Comments</button>
-          </Link>
-          <CommentAdder article_id={article_id} addComment={this.addComment} />
+          <CommentAdder
+            article_id={article_id}
+            addComment={this.addComment}
+            loggedInUser={loggedInUser}
+          />
           {comments.map(comment => {
             return (
               <CommentCard
                 key={comment.comment_id}
                 comment={comment}
-                voteOnComment={this.voteOnComment}
                 deleteComment={this.deleteComment}
                 loggedInUser={loggedInUser}
               />
@@ -46,26 +45,6 @@ class Comments extends Component {
       );
     }
   }
-
-  voteOnComment = ({ target: { id } }) => {
-    let [noOfVotes, comment_id] = id.split(',');
-    noOfVotes = parseInt(noOfVotes);
-
-    api
-      .voteOnComment(comment_id, noOfVotes)
-      .then(() => {
-        this.setState(currentState => {
-          const newComments = currentState.comments.map(comment => {
-            if (comment.comment_id === parseInt(comment_id)) {
-              return { ...comment, votes: comment.votes + noOfVotes };
-            }
-            return { ...comment };
-          });
-          return { comments: newComments };
-        });
-      })
-      .catch(console.log);
-  };
 
   componentDidMount() {
     this.fetchComments();

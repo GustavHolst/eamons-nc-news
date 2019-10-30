@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import * as api from '../../api';
 import ArticleHeader from './ArticleHeader';
-import ArticleBody from './ArticleBody';
-import ArticleVoting from './ArticleVoting';
 import { Link, Router } from '@reach/router';
 import Comments from '../Comments/Comments';
+import Voter from '../Voter';
 
 class SingleArticlePage extends Component {
   state = {
@@ -20,15 +19,23 @@ class SingleArticlePage extends Component {
     if (isLoading) return <p>Loading...</p>;
 
     return (
-      <main>
+      <main className="single-article-page">
         <ArticleHeader article={article} />
-        <ArticleVoting article={article} voter={this.voter} />
-        <ArticleBody article={article} />
+        <Voter
+          item_id={article.article_id}
+          voteOn="Article"
+          votes={article.votes}
+        />
+        <p>{article.body}</p>
         {!showComments ? (
           <Link to="comments">
             <button onClick={this.toggleCommentDisplay}>Show Comments</button>
           </Link>
-        ) : null}
+        ) : (
+          <Link to="">
+            <button onClick={this.toggleCommentDisplay}>Hide Comments</button>
+          </Link>
+        )}
         <Router>
           <Comments
             path="/comments"
@@ -44,10 +51,12 @@ class SingleArticlePage extends Component {
 
   componentDidMount() {
     const { article_id } = this.props;
-    // look at URI
     api.getArticle(article_id).then(article => {
       this.setState({ article, isLoading: false });
     });
+    if (this.props['*'].includes('comments')) {
+      this.setState({ showComments: true });
+    }
   }
 
   voter = event => {

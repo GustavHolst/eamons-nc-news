@@ -20,6 +20,7 @@ class User extends PureComponent {
         <main>
           <p>Username: {thisUser.username}</p>
           <img src={thisUser.avatar_url} alt="user avatar" />
+          <p>Articles by {thisUser.username}</p>
           {articles.map(article => {
             return (
               <ArticleCard
