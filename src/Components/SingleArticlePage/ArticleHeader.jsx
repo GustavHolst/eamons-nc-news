@@ -6,7 +6,7 @@ function ArticleHeader({ article }) {
     <main>
       <p>
         from:{' '}
-        <Link to={`/articles/${article.topic}`}>
+        <Link to={`/articles/topics/${article.topic}`}>
           <i>{article.topic[0].toUpperCase() + article.topic.slice(1)}</i>
         </Link>
       </p>

@@ -41,6 +41,11 @@ class App extends Component {
             userChange={this.state.userChange}
           />
           <ArticleList
+            path="/articles/topics/:topic"
+            users={this.state.users}
+            userChange={this.state.userChange}
+          />
+          <ArticleList
             path="/users/:username/articles"
             users={this.state.users}
             userChange={this.state.userChange}
@@ -60,6 +65,8 @@ class App extends Component {
     api.getUsers().then(users => {
       this.setState({ users, isLoading: false, userChange: 0 });
     });
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (loggedInUser.username !== 'guest') return navigate('/articles');
   }
 
   logUserIn = username => {

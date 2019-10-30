@@ -2,14 +2,23 @@ import React from 'react';
 import { Link } from '@reach/router';
 import Voter from '../Voter';
 
-function ArticleCard({ article }) {
+function ArticleCard({ article, users }) {
+  const authorAvatar = users.filter(user => user.username === article.author)[0]
+    .avatar_url;
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
   return (
-    <li className="article-card">
+    <li
+      className={
+        loggedInUser.username === article.author
+          ? 'logged-in-users-article-card'
+          : 'article-card'
+      }
+    >
       <div className="article-card-author-container">
         <img
           className="article-card-author-img"
-          src={loggedInUser.avatar_url}
+          src={authorAvatar}
           alt="article author avatar"
         />
         <p>
@@ -21,7 +30,7 @@ function ArticleCard({ article }) {
 
       <p className="article-card-topic">
         from:{' '}
-        <Link to={`/articles/${article.topic}`}>
+        <Link to={`/articles/topics/${article.topic}`}>
           <i>{article.topic[0].toUpperCase() + article.topic.slice(1)}</i>
         </Link>
       </p>

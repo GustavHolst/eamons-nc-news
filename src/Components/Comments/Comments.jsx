@@ -3,13 +3,16 @@ import * as api from '../../api';
 import CommentCard from './CommentCard';
 import Pagination from '../Pagination';
 import CommentAdder from '../Comments/CommentAdder';
+import CommentFilterAndSort from './CommentFilterAndSort';
 
 class Comments extends Component {
   state = {
     comments: [],
     isLoading: true,
     p: 1,
-    total_count: 0
+    total_count: 0,
+    sort_by: 'created_at',
+    order: 'desc'
   };
 
   render() {
@@ -25,6 +28,10 @@ class Comments extends Component {
             article_id={article_id}
             addComment={this.addComment}
             loggedInUser={loggedInUser}
+          />
+          <CommentFilterAndSort
+            changeSortBy={this.changeSortBy}
+            changeOrder={this.changeOrder}
           />
           {comments.map(comment => {
             return (
@@ -51,14 +58,23 @@ class Comments extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.p !== this.state.p) {
+    if (
+      prevState.p !== this.state.p ||
+      prevState.sort_by !== this.state.sort_by ||
+      prevState.order !== this.state.order
+    ) {
       this.fetchComments();
     }
   }
 
   fetchComments = () => {
     api
-      .getCommentsByArticle(this.props.article_id, this.state.p)
+      .getCommentsByArticle(
+        this.props.article_id,
+        this.state.p,
+        this.state.sort_by,
+        this.state.order
+      )
       .then(({ comments, total_count }) => {
         this.setState({ comments, total_count, isLoading: false });
       });
@@ -108,6 +124,14 @@ class Comments extends Component {
         })
         .catch(console.log);
     }
+  };
+
+  changeSortBy = sort_by => {
+    this.setState({ sort_by });
+  };
+
+  changeOrder = order => {
+    this.setState({ order });
   };
 }
 

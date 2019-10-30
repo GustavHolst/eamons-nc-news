@@ -17,7 +17,7 @@ class ArticleList extends Component {
   };
 
   render() {
-    const { articles, p, total_count, topics, isLoading } = this.state;
+    const { articles, p, total_count, topics, isLoading, topic } = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>;
@@ -29,6 +29,7 @@ class ArticleList extends Component {
             updateTopic={this.updateTopic}
             updateSortBy={this.updateSortBy}
             updateOrderBy={this.updateOrderBy}
+            topic={topic}
           />
           <ul className="article-cards-container">
             {articles.map(article => {
@@ -36,7 +37,7 @@ class ArticleList extends Component {
                 <ArticleCard
                   key={article.article_id}
                   article={article}
-                  deleteArticle={this.deleteArticle}
+                  users={this.props.users}
                 />
               );
             })}

@@ -2,6 +2,7 @@ import React from 'react';
 
 function ArticleFilterAndSort({
   topics,
+  topic,
   updateTopic,
   updateSortBy,
   updateOrderBy
@@ -38,7 +39,7 @@ function ArticleFilterAndSort({
         <select onChange={handleSortChange}>
           <option value="created_at">Date Posted</option>
           <option value="comment_count">Number of Comments</option>
-          <option value="votes">Votes</option>
+          <option value="votes">Number of Votes</option>
         </select>
       </label>
       <label>

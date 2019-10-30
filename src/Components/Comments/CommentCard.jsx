@@ -5,7 +5,13 @@ import { Link } from '@reach/router';
 function CommentCard({ comment, deleteComment, loggedInUser }) {
   const { comment_id, author, body, created_at } = comment;
   return (
-    <section className="comment-card">
+    <section
+      className={
+        loggedInUser.username === author
+          ? 'logged-in-users-comment-card'
+          : 'comment-card'
+      }
+    >
       <p className="comment-posted">
         Posted by{' '}
         <Link to={`/users/${comment.author}`}>

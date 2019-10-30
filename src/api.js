@@ -34,9 +34,9 @@ export const getTopics = () => {
   return request.get('/topics').then(({ data: { topics } }) => topics);
 };
 
-export const getCommentsByArticle = (article_id, p) => {
+export const getCommentsByArticle = (article_id, p, sort_by, order) => {
   return request
-    .get(`/articles/${article_id}/comments`, { params: { p } })
+    .get(`/articles/${article_id}/comments`, { params: { p, sort_by, order } })
     .then(({ data }) => data);
 };
 

@@ -49,6 +49,15 @@ ul {
   list-style-type: none;
 }
 
+.logged-in-users-article-card {
+  width: 800px;
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  border: black 2px solid;
+  margin: 3px;
+  background-color: coral;
+}
+
 .article-card {
   width: 800px;
   display: grid;
@@ -80,6 +89,14 @@ ul {
   grid-row: 1 / span 3;
   background-color: blanchedalmond;
   align-items: center;
+}
+
+.logged-in-users-comment-card {
+  background-color: rgb(135, 222, 147);
+  border: black solid 1px;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .comment-card {

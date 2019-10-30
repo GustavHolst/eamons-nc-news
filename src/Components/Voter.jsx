@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as api from '../api';
+import { Link } from '@reach/router';
 
 class Voter extends Component {
   state = { voteChange: 0 };
@@ -15,20 +16,25 @@ class Voter extends Component {
         {loggedInUser.username === 'guest' ? (
           <div>
             <p>{votes}</p>
-            <p>please log in to vote</p>
+            <p>
+              <Link to="/">
+                <i>Log in</i>
+              </Link>{' '}
+              to vote
+            </p>
           </div>
         ) : (
           <div>
             <button
               onClick={this.handleVote}
-              disabled={voteChange ? true : false}
+              disabled={voteChange === 1 ? true : false}
             >
               Upvote
             </button>
             <p>{votes + voteChange}</p>
             <button
               onClick={this.handleVote}
-              disabled={voteChange ? true : false}
+              disabled={voteChange === -1 ? true : false}
             >
               Downvote
             </button>
@@ -43,11 +49,15 @@ class Voter extends Component {
     const direction = event.target.textContent === 'Upvote' ? 1 : -1;
     if (voteOn === 'Article') {
       api.voteOnArticle(item_id, direction).then(() => {
-        this.setState({ voteChange: direction });
+        this.setState(currentState => {
+          return { voteChange: currentState.voteChange + direction };
+        });
       });
     } else {
       api.voteOnComment(item_id, direction).then(() => {
-        this.setState({ voteChange: direction });
+        this.setState(currentState => {
+          return { voteChange: currentState.voteChange + direction };
+        });
       });
     }
   };

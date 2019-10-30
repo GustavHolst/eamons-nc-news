@@ -11,7 +11,7 @@ class User extends PureComponent {
   };
 
   render() {
-    const { isLoading, thisUser, articles } = this.state;
+    const { isLoading, thisUser, articles, users } = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>;
@@ -27,6 +27,7 @@ class User extends PureComponent {
                 key={article.article_id}
                 article={article}
                 vote={this.vote}
+                users={users}
                 deleteArticle={this.deleteArticle}
               />
             );
