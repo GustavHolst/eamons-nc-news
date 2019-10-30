@@ -10,7 +10,11 @@ function ArticleCard({ article, vote }) {
         <Link to={`/articles/${article.article_id}`}>
           <i>{article.title}</i>
         </Link>
-        " by {article.author} on {article.created_at.slice(0, 10)}
+        " by{' '}
+        <Link to={`/users/${article.author}`}>
+          <i>{article.author}</i>
+        </Link>{' '}
+        on {article.created_at.slice(0, 10)}
       </p>
       <p className="comments">Comments: {article.comment_count}</p>
       <div className="votes-container">

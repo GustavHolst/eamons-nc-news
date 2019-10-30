@@ -34,7 +34,7 @@ class Header extends Component {
   handleLogOut = () => {
     alert('you have logged out');
     setUserAsGuest();
-    this.forceUpdate();
+    this.props.toggleUserChange();
   };
 }
 

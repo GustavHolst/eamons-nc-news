@@ -35,6 +35,7 @@ class SingleArticlePage extends Component {
             article_id={article.article_id}
             toggleCommentDisplay={this.toggleCommentDisplay}
             loggedInUser={loggedInUser}
+            userChange={this.props.userChange}
           />
         </Router>
       </main>
@@ -69,7 +70,6 @@ class SingleArticlePage extends Component {
       return { showComments: newShowComments };
     });
   };
-
 }
 
 export default SingleArticlePage;

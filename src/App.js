@@ -7,11 +7,13 @@ import UserLogin from './Components/Login/UserLogin';
 import React, { Component } from 'react';
 import * as api from './api';
 import { setUserAsGuest } from './utils/utils';
+import User from './Components/UserPage/User';
 
 class App extends Component {
   state = {
     isLoading: true,
-    users: []
+    users: [],
+    userChange: 0
   };
 
   render() {
@@ -19,19 +21,31 @@ class App extends Component {
 
     return (
       <>
-        <Header guest={this.state.guest} />
+        <Header
+          guest={this.state.guest}
+          toggleUserChange={this.toggleUserChange}
+          userChange={this.state.userChange}
+        />
         <Router>
           <UserLogin
             path="/"
             users={this.state.users}
             logUserIn={this.logUserIn}
             enterAsGuest={this.enterAsGuest}
+            toggleUserChange={this.toggleUserChange}
+            userChange={this.state.userChange}
           />
-          <ArticleList path="/articles" users={this.state.users} />
+          <ArticleList
+            path="/articles"
+            users={this.state.users}
+            userChange={this.state.userChange}
+          />
           <SingleArticlePage
             path="/articles/:article_id/*"
             users={this.state.loggedInUser}
+            userChange={this.state.userChange}
           />
+          <User path="users/:username" />
         </Router>
       </>
     );
@@ -54,7 +68,15 @@ class App extends Component {
 
   enterAsGuest = () => {
     setUserAsGuest();
+    this.toggleUserChange();
     navigate('/articles');
+    this.setState({ userChange: true });
+  };
+
+  toggleUserChange = () => {
+    this.setState(currentState => {
+      return { userChange: currentState.userChange + 1 };
+    });
   };
 }
 
