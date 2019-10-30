@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CommentCard({ comment, voteOnComment }) {
+function CommentCard({ comment, voteOnComment, deleteComment, loggedInUser }) {
   const { comment_id, author, body, created_at, votes } = comment;
   return (
     <section className="comment-card">
@@ -31,6 +31,11 @@ function CommentCard({ comment, voteOnComment }) {
           ⬇️
         </span>
       </div>
+      {loggedInUser.username === author ? (
+        <button onClick={deleteComment} id={comment_id}>
+          Delete
+        </button>
+      ) : null}
     </section>
   );
 }

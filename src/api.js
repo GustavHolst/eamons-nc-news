@@ -33,8 +33,22 @@ export const getTopics = () => {
   return request.get('/topics').then(({ data: { topics } }) => topics);
 };
 
-export const getCommentsByArticle = article_id => {
+export const getCommentsByArticle = (article_id, p) => {
   return request
-    .get(`/articles/${article_id}/comments`)
+    .get(`/articles/${article_id}/comments`, { params: { p } })
     .then(({ data }) => data);
+};
+
+export const postComment = (article_id, username, body) => {
+  return request
+    .post(`/articles/${article_id}/comments`, { username, body })
+    .then(({ data: { comment } }) => comment);
+};
+
+export const getUsers = () => {
+  return request.get(`/users`).then(({ data: { users } }) => users);
+};
+
+export const deleteComment = comment_id => {
+  return request.delete(`comments/${comment_id}`).then(({ data }) => data);
 };

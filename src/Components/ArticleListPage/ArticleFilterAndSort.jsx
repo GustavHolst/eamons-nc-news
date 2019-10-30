@@ -27,7 +27,7 @@ function ArticleFilterAndSort({ topics, updateSelectedTopic, updateSortBy }) {
       <label>
         Sort by:{' '}
         <select onChange={handleSortChange}>
-          <option value="date-created">Date Posted</option>
+          <option value="created_at">Date Posted</option>
           <option value="comment_count">Number of Comments</option>
           <option value="votes">Votes</option>
         </select>

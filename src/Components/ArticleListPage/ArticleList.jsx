@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ArticleCard from './ArticleCard';
 import * as api from '../../api';
 import ArticleFilterAndSort from './ArticleFilterAndSort';
-import ArticlesPagination from './ArticlesPagination';
+import Pagination from '../Pagination';
 import ArticleSort from './ArticleSort';
 
 class ArticleList extends Component {
@@ -18,6 +18,7 @@ class ArticleList extends Component {
 
   render() {
     const { articles, p, total_count, topics, isLoading } = this.state;
+
     if (isLoading) {
       return <p>Loading...</p>;
     } else {
@@ -36,11 +37,12 @@ class ArticleList extends Component {
                   key={article.article_id}
                   article={article}
                   vote={this.vote}
+                  deleteArticle={this.deleteArticle}
                 />
               );
             })}
           </ul>
-          <ArticlesPagination
+          <Pagination
             p={p}
             total_count={total_count}
             changePage={this.changePage}
@@ -51,9 +53,7 @@ class ArticleList extends Component {
   }
 
   componentDidMount() {
-    api.getArticles(this.state).then(data => {
-      this.fetchArticles();
-    });
+    this.fetchArticles();
     api.getTopics().then(topics => {
       this.setState({ topics: [{ slug: 'all' }, ...topics] });
     });
@@ -62,7 +62,6 @@ class ArticleList extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.p !== this.state.p ||
-      this.state.trigger ||
       prevState.selectedTopic !== this.state.selectedTopic ||
       prevState.sort_by !== this.state.sort_by
     ) {
@@ -80,7 +79,7 @@ class ArticleList extends Component {
   vote = event => {
     const [voteDirection, article_id] = event.target.id.split(',');
     const inc_votes = voteDirection === 'upvote' ? 1 : -1;
-    api.voteOnArticle(article_id, inc_votes).then(x => {
+    api.voteOnArticle(article_id, inc_votes).then(() => {
       this.setState(currentState => {
         const newArticles = currentState.articles.map(article => {
           const currentVotes = article.votes;

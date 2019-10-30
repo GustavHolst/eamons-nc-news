@@ -71,3 +71,7 @@ ul {
 .number-of-comment-votes {
   grid-row: 1 / span 2;
 }
+
+#header-avatar {
+  height: 80px;
+}

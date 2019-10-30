@@ -15,6 +15,7 @@ class SingleArticlePage extends Component {
 
   render() {
     const { article, isLoading, showComments } = this.state;
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
     if (isLoading) return <p>Loading...</p>;
 
@@ -33,6 +34,7 @@ class SingleArticlePage extends Component {
             path="/comments"
             article_id={article.article_id}
             toggleCommentDisplay={this.toggleCommentDisplay}
+            loggedInUser={loggedInUser}
           />
         </Router>
       </main>
@@ -41,6 +43,7 @@ class SingleArticlePage extends Component {
 
   componentDidMount() {
     const { article_id } = this.props;
+    // look at URI
     api.getArticle(article_id).then(article => {
       this.setState({ article, isLoading: false });
     });
@@ -66,6 +69,7 @@ class SingleArticlePage extends Component {
       return { showComments: newShowComments };
     });
   };
+
 }
 
 export default SingleArticlePage;
