@@ -18,37 +18,20 @@ code {
 header {
   position: fixed;
   width: 100%;
-  height: 200px;
+  height: 150px;
   display: flex;
   background-color: blanchedalmond;
   align-items: center;
   justify-content: center;
 }
 
-.login {
-  padding-top: 200px;
-}
-
-.single-article-page {
-  padding-top: 200px;
-}
-
-.articles-page {
-  padding-top: 200px;
-}
-
-.article-cards-container {
-  padding-top: 40px;
-}
-
-.post-article-button {
-  padding-top: 40px;
+main {
+  padding-top: 150px;
 }
 
 .article-filter-and-sort {
   width: 100%;
   background-color: rgb(240, 105, 105);
-  position: fixed;
   height: 40px;
 }
 

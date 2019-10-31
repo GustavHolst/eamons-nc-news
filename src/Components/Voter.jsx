@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import * as api from '../api';
 import { Link } from '@reach/router';
+import ErrorPage from './ErrorPage';
 
 class Voter extends Component {
-  state = { voteChange: 0 };
+  state = { voteChange: 0, err: null };
 
   render() {
     const { votes, loggedInUser } = this.props;
-    const { voteChange } = this.state;
+    const { voteChange, err } = this.state;
+
+    if (err) return <ErrorPage err={err} />;
 
     return (
       <section>
@@ -47,17 +50,23 @@ class Voter extends Component {
     const { item_id, voteOn } = this.props;
     const direction = event.target.textContent === 'Upvote' ? 1 : -1;
     if (voteOn === 'Article') {
-      api.voteOnArticle(item_id, direction).then(() => {
-        this.setState(currentState => {
-          return { voteChange: currentState.voteChange + direction };
-        });
-      });
+      api
+        .voteOnArticle(item_id, direction)
+        .then(() => {
+          this.setState(currentState => {
+            return { voteChange: currentState.voteChange + direction };
+          });
+        })
+        .catch(err => this.setState({ err }));
     } else {
-      api.voteOnComment(item_id, direction).then(() => {
-        this.setState(currentState => {
-          return { voteChange: currentState.voteChange + direction };
-        });
-      });
+      api
+        .voteOnComment(item_id, direction)
+        .then(() => {
+          this.setState(currentState => {
+            return { voteChange: currentState.voteChange + direction };
+          });
+        })
+        .catch(err => this.setState({ err }));
     }
   };
 }

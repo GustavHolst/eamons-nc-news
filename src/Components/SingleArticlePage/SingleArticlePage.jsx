@@ -4,19 +4,23 @@ import ArticleHeader from './ArticleHeader';
 import { Link, Router } from '@reach/router';
 import Comments from '../Comments/Comments';
 import Voter from '../Voter';
+import Loading from '../Loading';
+import ErrorPage from '../ErrorPage';
 
 class SingleArticlePage extends Component {
   state = {
     article: {},
     isLoading: true,
-    showComments: false
+    showComments: false,
+    err: null
   };
 
   render() {
-    const { article, isLoading, showComments } = this.state;
+    const { article, isLoading, showComments, err } = this.state;
     const { loggedInUser } = this.props;
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Loading />;
+    if (err) return <ErrorPage err={err} />;
 
     return (
       <main className="single-article-page">
@@ -52,9 +56,12 @@ class SingleArticlePage extends Component {
 
   componentDidMount() {
     const { article_id } = this.props;
-    api.getArticle(article_id).then(article => {
-      this.setState({ article, isLoading: false });
-    });
+    api
+      .getArticle(article_id)
+      .then(article => {
+        this.setState({ article, isLoading: false });
+      })
+      .catch(err => this.setState({ err }));
     if (this.props['*'].includes('comments')) {
       this.setState({ showComments: true });
     }
@@ -63,15 +70,18 @@ class SingleArticlePage extends Component {
   voter = event => {
     const noOfVotes = event.target.innerText === 'Upvote' ? 1 : -1;
 
-    api.voteOnArticle(this.state.article.article_id, noOfVotes).then(() => {
-      this.setState(currentState => {
-        const newArticle = {
-          ...currentState.article,
-          votes: currentState.article.votes + noOfVotes
-        };
-        return { article: newArticle };
-      });
-    });
+    api
+      .voteOnArticle(this.state.article.article_id, noOfVotes)
+      .then(() => {
+        this.setState(currentState => {
+          const newArticle = {
+            ...currentState.article,
+            votes: currentState.article.votes + noOfVotes
+          };
+          return { article: newArticle };
+        });
+      })
+      .catch(err => this.setState({ err }));
   };
 
   toggleCommentDisplay = () => {

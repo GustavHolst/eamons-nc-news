@@ -3,7 +3,7 @@ import { Link } from '@reach/router';
 
 function ArticleHeader({ article }) {
   return (
-    <main>
+    <section>
       <p>
         from:{' '}
         <Link to={`/articles/topics/${article.topic}`}>
@@ -20,7 +20,7 @@ function ArticleHeader({ article }) {
       </h2>
 
       <h3>Posted on: {article.created_at.slice(0, 10)}</h3>
-    </main>
+    </section>
   );
 }
 

@@ -4,6 +4,8 @@ import * as api from '../../api';
 import ArticleFilterAndSort from './ArticleFilterAndSort';
 import Pagination from '../Pagination';
 import ArticleAdder from './ArticleAdder';
+import Loading from '../Loading';
+import ErrorPage from '../ErrorPage';
 
 class ArticleList extends Component {
   state = {
@@ -15,7 +17,8 @@ class ArticleList extends Component {
     topic: 'all',
     sort_by: 'created_at',
     order: 'desc',
-    showArticleAdder: false
+    showArticleAdder: false,
+    err: null
   };
 
   render() {
@@ -26,68 +29,71 @@ class ArticleList extends Component {
       topics,
       isLoading,
       topic,
-      showArticleAdder
+      showArticleAdder,
+      err
     } = this.state;
     const { loggedInUser } = this.props;
 
-    if (isLoading) {
-      return <p>Loading...</p>;
-    } else {
-      return (
-        <main className="articles-page">
-          <ArticleFilterAndSort
+    if (isLoading) return <Loading />;
+    if (err) return <ErrorPage err={err} />;
+
+    return (
+      <main className="articles-page">
+        <ArticleFilterAndSort
+          topics={topics}
+          updateTopic={this.updateTopic}
+          updateSortBy={this.updateSortBy}
+          updateOrderBy={this.updateOrderBy}
+          topic={topic}
+        />
+        {loggedInUser.username === 'guest' ? (
+          <p>Log in to post your own article</p>
+        ) : (
+          <button
+            className="post-article-button"
+            onClick={this.toggleShowArticleAdder}
+          >
+            {showArticleAdder ? 'Close' : 'Post your own article'}
+          </button>
+        )}
+        {showArticleAdder ? (
+          <ArticleAdder
             topics={topics}
-            updateTopic={this.updateTopic}
-            updateSortBy={this.updateSortBy}
-            updateOrderBy={this.updateOrderBy}
-            topic={topic}
+            submitArticle={this.submitArticle}
+            toggleShowTopicAdder={this.toggleShowTopicAdder}
+            addNewTopic={this.addNewTopic}
           />
-          {loggedInUser.username === 'guest' ? (
-            <p className>Log in to post your own article</p>
-          ) : (
-            <button
-              className="post-article-button"
-              onClick={this.toggleShowArticleAdder}
-            >
-              {showArticleAdder ? 'Close' : 'Post your own article'}
-            </button>
-          )}
-          {showArticleAdder ? (
-            <ArticleAdder
-              topics={topics}
-              submitArticle={this.submitArticle}
-              toggleShowTopicAdder={this.toggleShowTopicAdder}
-              addNewTopic={this.addNewTopic}
-            />
-          ) : null}
-          <ul className="article-cards-container">
-            {articles.map(article => {
-              return (
-                <ArticleCard
-                  key={article.article_id}
-                  article={article}
-                  users={this.props.users}
-                  requestDeleteArticle={this.requestDeleteArticle}
-                  loggedInUser={loggedInUser}
-                />
-              );
-            })}
-          </ul>
-          <Pagination
-            p={p}
-            total_count={total_count}
-            changePage={this.changePage}
-          />
-        </main>
-      );
-    }
+        ) : null}
+        <ul className="article-cards-container">
+          {articles.map(article => {
+            return (
+              <ArticleCard
+                key={article.article_id}
+                article={article}
+                users={this.props.users}
+                requestDeleteArticle={this.requestDeleteArticle}
+                loggedInUser={loggedInUser}
+              />
+            );
+          })}
+        </ul>
+        <Pagination
+          p={p}
+          total_count={total_count}
+          changePage={this.changePage}
+        />
+      </main>
+    );
   }
 
   componentDidMount() {
     this.fetchArticles();
-    api.getTopics().then(topics => {
-      this.setState({ topics: [{ slug: 'all' }, ...topics] });
-    });
+    api
+      .getTopics()
+      .then(topics => {
+        this.setState({ topics: [{ slug: 'all' }, ...topics] });
+      })
+      .catch(err => this.setState({ err }));
     if (this.props.topic) {
       this.setState({ topic: this.props.topic });
     }
@@ -108,10 +114,13 @@ class ArticleList extends Component {
   }
 
   fetchArticles = () => {
-    api.getArticles(this.state).then(data => {
-      const { articles, total_count } = data;
-      this.setState({ articles, total_count, isLoading: false });
-    });
+    api
+      .getArticles(this.state)
+      .then(data => {
+        const { articles, total_count } = data;
+        this.setState({ articles, total_count, isLoading: false });
+      })
+      .catch(err => this.setState({ err }));
   };
 
   changePage = event => {
@@ -170,7 +179,7 @@ class ArticleList extends Component {
           return { articles: newArticles };
         });
       })
-      .catch(console.log);
+      .catch(err => this.setState({ err }));
   };
 
   requestDeleteArticle = event => {
@@ -193,7 +202,7 @@ class ArticleList extends Component {
             };
           });
         })
-        .catch(console.dir);
+        .catch(err => this.setState({ err }));
     }
   };
 }

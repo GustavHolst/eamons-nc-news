@@ -69,7 +69,11 @@ class App extends Component {
             loggedInUser={loggedInUser}
             userChange={this.state.userChange}
           />
-          <User path="users/:username" loggedInUser={loggedInUser} />
+          <User
+            path="users/:username"
+            loggedInUser={loggedInUser}
+            users={this.state.users}
+          />
         </Router>
       </>
     );

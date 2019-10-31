@@ -4,6 +4,8 @@ import CommentCard from './CommentCard';
 import Pagination from '../Pagination';
 import CommentAdder from '../Comments/CommentAdder';
 import CommentFilterAndSort from './CommentFilterAndSort';
+import Loading from '../Loading';
+import ErrorPage from '../ErrorPage';
 
 class Comments extends Component {
   state = {
@@ -12,45 +14,45 @@ class Comments extends Component {
     p: 1,
     total_count: 0,
     sort_by: 'created_at',
-    order: 'desc'
+    order: 'desc',
+    err: null
   };
 
   render() {
     const { article_id, loggedInUser } = this.props;
-    const { comments, isLoading, p, total_count } = this.state;
+    const { comments, isLoading, p, total_count, err } = this.state;
 
-    if (isLoading) {
-      return <p>Loading...</p>;
-    } else {
-      return (
-        <section>
-          <CommentAdder
-            article_id={article_id}
-            addComment={this.addComment}
-            loggedInUser={loggedInUser}
-          />
-          <CommentFilterAndSort
-            changeSortBy={this.changeSortBy}
-            changeOrder={this.changeOrder}
-          />
-          {comments.map(comment => {
-            return (
-              <CommentCard
-                key={comment.comment_id}
-                comment={comment}
-                deleteComment={this.deleteComment}
-                loggedInUser={loggedInUser}
-              />
-            );
-          })}
-          <Pagination
-            p={p}
-            total_count={total_count}
-            changePage={this.changePage}
-          />
-        </section>
-      );
-    }
+    if (isLoading) return <Loading />;
+    if (err) return <ErrorPage err={err} />;
+
+    return (
+      <section>
+        <CommentAdder
+          article_id={article_id}
+          addComment={this.addComment}
+          loggedInUser={loggedInUser}
+        />
+        <CommentFilterAndSort
+          changeSortBy={this.changeSortBy}
+          changeOrder={this.changeOrder}
+        />
+        {comments.map(comment => {
+          return (
+            <CommentCard
+              key={comment.comment_id}
+              comment={comment}
+              deleteComment={this.deleteComment}
+              loggedInUser={loggedInUser}
+            />
+          );
+        })}
+        <Pagination
+          p={p}
+          total_count={total_count}
+          changePage={this.changePage}
+        />
+      </section>
+    );
   }
 
   componentDidMount() {
@@ -77,7 +79,8 @@ class Comments extends Component {
       )
       .then(({ comments, total_count }) => {
         this.setState({ comments, total_count, isLoading: false });
-      });
+      })
+      .catch(err => this.setState({ err }));
   };
 
   changePage = event => {
@@ -103,7 +106,8 @@ class Comments extends Component {
           newComments.pop();
           return { comments: newComments };
         });
-      });
+      })
+      .catch(err => this.setState({ err }));
   };
 
   deleteComment = event => {
@@ -122,7 +126,7 @@ class Comments extends Component {
             };
           });
         })
-        .catch(console.log);
+        .catch(err => this.setState({ err }));
     }
   };
 
