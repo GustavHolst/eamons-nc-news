@@ -6,18 +6,19 @@ import SingleArticlePage from './Components/SingleArticlePage/SingleArticlePage'
 import UserLogin from './Components/Login/UserLogin';
 import React, { Component } from 'react';
 import * as api from './api';
-import { setUserAsGuest } from './utils/utils';
 import User from './Components/UserPage/User';
+import ErrorPage from './Components/ErrorPage';
 
 class App extends Component {
   state = {
     isLoading: true,
     users: [],
-    userChange: 0
+    loggedInUser: {}
   };
 
   render() {
     if (this.state.isLoading) return <p>Loading...</p>;
+    const { loggedInUser } = this.state;
 
     return (
       <>
@@ -25,48 +26,60 @@ class App extends Component {
           guest={this.state.guest}
           toggleUserChange={this.toggleUserChange}
           userChange={this.state.userChange}
+          loggedInUser={loggedInUser}
+          logUserOut={this.logUserOut}
         />
         <Router>
+          <ErrorPage default />
           <UserLogin
-            path="/"
+            path="/login"
             users={this.state.users}
             logUserIn={this.logUserIn}
+            logUserOut={this.logUserOut}
+            loggedInUser={loggedInUser}
             enterAsGuest={this.enterAsGuest}
-            toggleUserChange={this.toggleUserChange}
+          />
+          <ArticleList
+            path="/"
+            users={this.state.users}
+            loggedInUser={loggedInUser}
             userChange={this.state.userChange}
           />
           <ArticleList
             path="/articles"
             users={this.state.users}
+            loggedInUser={loggedInUser}
             userChange={this.state.userChange}
           />
           <ArticleList
             path="/articles/topics/:topic"
             users={this.state.users}
+            loggedInUser={loggedInUser}
             userChange={this.state.userChange}
           />
           <ArticleList
             path="/users/:username/articles"
             users={this.state.users}
+            loggedInUser={loggedInUser}
             userChange={this.state.userChange}
           />
           <SingleArticlePage
             path="/articles/:article_id/*"
             users={this.state.loggedInUser}
+            loggedInUser={loggedInUser}
             userChange={this.state.userChange}
           />
-          <User path="users/:username" />
+          <User path="users/:username" loggedInUser={loggedInUser} />
         </Router>
       </>
     );
   }
 
   componentDidMount() {
-    api.getUsers().then(users => {
-      this.setState({ users, isLoading: false, userChange: 0 });
-    });
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (loggedInUser.username !== 'guest') return navigate('/articles');
+    api.getUsers().then(users => {
+      this.setState({ users, isLoading: false, userChange: 0, loggedInUser });
+    });
   }
 
   logUserIn = username => {
@@ -74,20 +87,18 @@ class App extends Component {
       user => user.username === username
     )[0];
     localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
-    this.setState({ guest: false });
+    this.setState({ loggedInUser });
     navigate('/articles');
   };
 
-  enterAsGuest = () => {
-    setUserAsGuest();
-    this.toggleUserChange();
-    navigate('/articles');
-    this.setState({ userChange: true });
-  };
-
-  toggleUserChange = () => {
-    this.setState(currentState => {
-      return { userChange: currentState.userChange + 1 };
+  logUserOut = () => {
+    this.setState({
+      loggedInUser: {
+        username: 'guest',
+        avatar_url:
+          'http://wpuploads.appadvice.com/wp-content/uploads/2014/10/facebookanon.jpg',
+        name: 'Guest'
+      }
     });
   };
 }

@@ -59,3 +59,14 @@ export const postArticle = body => {
     .post('/articles', body)
     .then(({ data: { article } }) => article);
 };
+
+export const deleteArticle = article_id => {
+  return request.delete(`/articles/${article_id}`).then(({ data }) => data);
+};
+
+export const postTopic = (slug, description) => {
+  console.log(slug, description);
+  return request
+    .post('/topics', { slug, description })
+    .then(({ data: { topic } }) => topic);
+};

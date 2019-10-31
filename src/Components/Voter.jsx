@@ -6,9 +6,8 @@ class Voter extends Component {
   state = { voteChange: 0 };
 
   render() {
-    const { votes } = this.props;
+    const { votes, loggedInUser } = this.props;
     const { voteChange } = this.state;
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
     return (
       <section>
@@ -17,7 +16,7 @@ class Voter extends Component {
           <div>
             <p>{votes}</p>
             <p>
-              <Link to="/">
+              <Link to="/login">
                 <i>Log in</i>
               </Link>{' '}
               to vote

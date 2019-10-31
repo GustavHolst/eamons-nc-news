@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from '@reach/router';
 import Voter from '../Voter';
 
-function ArticleCard({ article, users }) {
+function ArticleCard({ article, users, requestDeleteArticle, loggedInUser }) {
   const authorAvatar = users.filter(user => user.username === article.author)[0]
     .avatar_url;
-  const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
   return (
     <li
@@ -27,7 +26,6 @@ function ArticleCard({ article, users }) {
           </Link>
         </p>
       </div>
-
       <p className="article-card-topic">
         from:{' '}
         <Link to={`/articles/topics/${article.topic}`}>
@@ -48,8 +46,14 @@ function ArticleCard({ article, users }) {
           item_id={article.article_id}
           voteOn="Article"
           votes={article.votes}
+          loggedInUser={loggedInUser}
         />
       </div>
+      {loggedInUser.username === article.author ? (
+        <button id={article.article_id} onClick={requestDeleteArticle}>
+          Delete
+        </button>
+      ) : null}
     </li>
   );
 }

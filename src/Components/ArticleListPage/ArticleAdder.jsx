@@ -72,7 +72,6 @@ class ArticleAdder extends Component {
       });
     }
   };
-
   handleInputChange = event => {
     const { value, id } = event.target;
     this.setState({ [id]: value });

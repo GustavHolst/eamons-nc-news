@@ -28,7 +28,7 @@ class ArticleList extends Component {
       topic,
       showArticleAdder
     } = this.state;
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const { loggedInUser } = this.props;
 
     if (isLoading) {
       return <p>Loading...</p>;
@@ -53,7 +53,12 @@ class ArticleList extends Component {
             </button>
           )}
           {showArticleAdder ? (
-            <ArticleAdder topics={topics} submitArticle={this.submitArticle} />
+            <ArticleAdder
+              topics={topics}
+              submitArticle={this.submitArticle}
+              toggleShowTopicAdder={this.toggleShowTopicAdder}
+              addNewTopic={this.addNewTopic}
+            />
           ) : null}
           <ul className="article-cards-container">
             {articles.map(article => {
@@ -62,6 +67,8 @@ class ArticleList extends Component {
                   key={article.article_id}
                   article={article}
                   users={this.props.users}
+                  requestDeleteArticle={this.requestDeleteArticle}
+                  loggedInUser={loggedInUser}
                 />
               );
             })}
@@ -148,12 +155,13 @@ class ArticleList extends Component {
   };
 
   submitArticle = (title, body, topic) => {
+    const { loggedInUser } = this.props;
     api
       .postArticle({
         title,
         body,
         topic,
-        author: JSON.parse(localStorage.getItem('loggedInUser')).username
+        author: loggedInUser.username
       })
       .then(article => {
         this.setState(currentState => {
@@ -163,6 +171,30 @@ class ArticleList extends Component {
         });
       })
       .catch(console.log);
+  };
+
+  requestDeleteArticle = event => {
+    const article_id = parseInt(event.target.id);
+    if (
+      window.confirm(
+        'are you sure you want to delete this article and all of its comments?'
+      )
+    ) {
+      api
+        .deleteArticle(article_id)
+        .then(() => {
+          this.setState(currentState => {
+            const newarticles = currentState.articles.filter(
+              article => article.article_id !== article_id
+            );
+            return {
+              articles: newarticles,
+              total_count: currentState.total_count - 1
+            };
+          });
+        })
+        .catch(console.dir);
+    }
   };
 }
 

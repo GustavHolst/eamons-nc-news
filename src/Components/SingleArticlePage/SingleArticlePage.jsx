@@ -14,7 +14,7 @@ class SingleArticlePage extends Component {
 
   render() {
     const { article, isLoading, showComments } = this.state;
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const { loggedInUser } = this.props;
 
     if (isLoading) return <p>Loading...</p>;
 
@@ -25,6 +25,7 @@ class SingleArticlePage extends Component {
           item_id={article.article_id}
           voteOn="Article"
           votes={article.votes}
+          loggedInUser={loggedInUser}
         />
         <p>{article.body}</p>
         {!showComments ? (

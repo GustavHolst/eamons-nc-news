@@ -26,6 +26,7 @@ function CommentCard({ comment, deleteComment, loggedInUser }) {
         item_id={comment.comment_id}
         voteOn="Comment"
         votes={comment.votes}
+        loggedInUser={loggedInUser}
       />
       {loggedInUser.username === author ? (
         <button onClick={deleteComment} id={comment_id}>

@@ -27,7 +27,7 @@ class CommentAdder extends Component {
     } else {
       return (
         <p>
-          <Link to="/">
+          <Link to="/login">
             <i>Log in</i>
           </Link>{' '}
           to get involved in the conversation
