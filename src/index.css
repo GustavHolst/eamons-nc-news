@@ -33,12 +33,19 @@ header {
   padding-top: 200px;
 }
 
+.articles-page {
+  padding-top: 200px;
+}
+
 .article-cards-container {
-  padding-top: 240px;
+  padding-top: 40px;
+}
+
+.post-article-button {
+  padding-top: 40px;
 }
 
 .article-filter-and-sort {
-  margin-top: 200px;
   width: 100%;
   background-color: rgb(240, 105, 105);
   position: fixed;

@@ -3,6 +3,7 @@ import ArticleCard from './ArticleCard';
 import * as api from '../../api';
 import ArticleFilterAndSort from './ArticleFilterAndSort';
 import Pagination from '../Pagination';
+import ArticleAdder from './ArticleAdder';
 
 class ArticleList extends Component {
   state = {
@@ -13,17 +14,27 @@ class ArticleList extends Component {
     topics: [],
     topic: 'all',
     sort_by: 'created_at',
-    order: 'desc'
+    order: 'desc',
+    showArticleAdder: false
   };
 
   render() {
-    const { articles, p, total_count, topics, isLoading, topic } = this.state;
+    const {
+      articles,
+      p,
+      total_count,
+      topics,
+      isLoading,
+      topic,
+      showArticleAdder
+    } = this.state;
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
     if (isLoading) {
       return <p>Loading...</p>;
     } else {
       return (
-        <main>
+        <main className="articles-page">
           <ArticleFilterAndSort
             topics={topics}
             updateTopic={this.updateTopic}
@@ -31,6 +42,19 @@ class ArticleList extends Component {
             updateOrderBy={this.updateOrderBy}
             topic={topic}
           />
+          {loggedInUser.username === 'guest' ? (
+            <p className>Log in to post your own article</p>
+          ) : (
+            <button
+              className="post-article-button"
+              onClick={this.toggleShowArticleAdder}
+            >
+              {showArticleAdder ? 'Close' : 'Post your own article'}
+            </button>
+          )}
+          {showArticleAdder ? (
+            <ArticleAdder topics={topics} submitArticle={this.submitArticle} />
+          ) : null}
           <ul className="article-cards-container">
             {articles.map(article => {
               return (
@@ -107,6 +131,38 @@ class ArticleList extends Component {
 
   updateOrderBy = order => {
     this.setState({ order });
+  };
+
+  toggleShowArticleAdder = () => {
+    this.setState(currentState => {
+      if (
+        currentState.showArticleAdder &&
+        window.confirm(
+          'are you sure you to close? Any draft articles will be lost'
+        )
+      ) {
+        return { showArticleAdder: !currentState.showArticleAdder };
+      }
+      return { showArticleAdder: !currentState.showArticleAdder };
+    });
+  };
+
+  submitArticle = (title, body, topic) => {
+    api
+      .postArticle({
+        title,
+        body,
+        topic,
+        author: JSON.parse(localStorage.getItem('loggedInUser')).username
+      })
+      .then(article => {
+        this.setState(currentState => {
+          const newArticles = [article, ...currentState.articles];
+          newArticles.pop();
+          return { articles: newArticles };
+        });
+      })
+      .catch(console.log);
   };
 }
 

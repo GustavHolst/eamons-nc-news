@@ -51,5 +51,11 @@ export const getUsers = () => {
 };
 
 export const deleteComment = comment_id => {
-  return request.delete(`comments/${comment_id}`).then(({ data }) => data);
+  return request.delete(`/comments/${comment_id}`).then(({ data }) => data);
+};
+
+export const postArticle = body => {
+  return request
+    .post('/articles', body)
+    .then(({ data: { article } }) => article);
 };
