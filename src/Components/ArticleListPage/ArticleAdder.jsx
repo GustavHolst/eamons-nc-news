@@ -11,9 +11,13 @@ class ArticleAdder extends Component {
     const { topics } = this.props;
     return (
       <form className="article-adder" onSubmit={this.handleSubmit}>
-        <label>
-          Select a topic
-          <select id="topic" onChange={this.handleInputChange}>
+        <label className="post-article-topic-select-label">
+          <p className="post-article-label-text">Select a topic: </p>
+          <select
+            className="post-article-topic-select"
+            id="topic"
+            onChange={this.handleInputChange}
+          >
             <option value="---">---</option>
             {topics.map(topic => {
               if (topic.slug !== 'all') {
@@ -28,27 +32,34 @@ class ArticleAdder extends Component {
             })}
           </select>
         </label>
-        <label>
-          Title
+        <label className="post-article-title-label">
+          <p className="post-article-label-text">Title: </p>
           <input
             type="text"
             id="title"
             value={this.state.title}
             onChange={this.handleInputChange}
+            className="post-article-title"
             required
           />
         </label>
-        <label>
-          Body
-          <input
+        <label className="post-article-body-label">
+          <p className="post-article-label-text">Body: </p>
+          <textarea
             type="text"
             id="body"
+            className="post-article-body"
             onChange={this.handleInputChange}
             value={this.state.body}
             required
+            wrap="soft"
           />
         </label>
-        <button type="submit">Post</button>
+        <div className="submit-article-container">
+          <button className="submit-article" type="submit">
+            Post
+          </button>
+        </div>
       </form>
     );
   }

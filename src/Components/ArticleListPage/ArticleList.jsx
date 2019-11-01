@@ -6,6 +6,7 @@ import Pagination from '../Pagination';
 import ArticleAdder from './ArticleAdder';
 import Loading from '../Loading';
 import ErrorPage from '../ErrorPage';
+import { Link } from '@reach/router';
 
 class ArticleList extends Component {
   state = {
@@ -47,14 +48,18 @@ class ArticleList extends Component {
           topic={topic}
         />
         {loggedInUser.username === 'guest' ? (
-          <p>Log in to post your own article</p>
+          <Link to="/login">
+            <p id="login-to-post-article">Log in to post your own article</p>
+          </Link>
         ) : (
-          <button
-            className="post-article-button"
-            onClick={this.toggleShowArticleAdder}
-          >
-            {showArticleAdder ? 'Close' : 'Post your own article'}
-          </button>
+          <div className="post-article-container">
+            <p
+              className="post-article-button"
+              onClick={this.toggleShowArticleAdder}
+            >
+              {showArticleAdder ? 'Close' : 'Post your own article'}
+            </p>
+          </div>
         )}
         {showArticleAdder ? (
           <ArticleAdder
@@ -153,9 +158,7 @@ class ArticleList extends Component {
     this.setState(currentState => {
       if (
         currentState.showArticleAdder &&
-        window.confirm(
-          'are you sure you to close? Any draft articles will be lost'
-        )
+        window.confirm('Are you sure you to close? Any changes will be lost')
       ) {
         return { showArticleAdder: !currentState.showArticleAdder };
       }
@@ -186,7 +189,7 @@ class ArticleList extends Component {
     const article_id = parseInt(event.target.id);
     if (
       window.confirm(
-        'are you sure you want to delete this article and all of its comments?'
+        'Are you sure you want to delete this article and all of its comments?'
       )
     ) {
       api

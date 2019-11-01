@@ -65,7 +65,6 @@ export const deleteArticle = article_id => {
 };
 
 export const postTopic = (slug, description) => {
-  console.log(slug, description);
   return request
     .post('/topics', { slug, description })
     .then(({ data: { topic } }) => topic);
