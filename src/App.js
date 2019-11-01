@@ -13,12 +13,7 @@ class App extends Component {
   state = {
     isLoading: true,
     users: [],
-    loggedInUser: {
-      username: 'guest',
-      avatar_url:
-        'http://wpuploads.appadvice.com/wp-content/uploads/2014/10/facebookanon.jpg',
-      name: 'Guest'
-    }
+    loggedInUser: {}
   };
 
   render() {
@@ -85,7 +80,18 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    console.log(loggedInUser);
+    if (!loggedInUser) {
+      loggedInUser = {
+        username: 'guest',
+        avatar_url:
+          'http://wpuploads.appadvice.com/wp-content/uploads/2014/10/facebookanon.jpg',
+        name: 'Guest'
+      };
+      localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    }
+
     api.getUsers().then(users => {
       this.setState({ users, isLoading: false, userChange: 0, loggedInUser });
     });
