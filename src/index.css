@@ -18,21 +18,89 @@ code {
 header {
   position: fixed;
   width: 100%;
-  height: 150px;
-  display: flex;
-  background-color: blanchedalmond;
+  height: 110px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  background-color: rgb(255, 152, 68);
   align-items: center;
-  justify-content: center;
+}
+
+#ES-News {
+  padding: 10px;
+  padding-left: 25px;
+  font-size: 30pt;
+}
+
+#ES-News:hover {
+  color: whitesmoke;
+}
+
+#header-login {
+  position: relative;
+  right: 50px;
+  text-align: right;
+  color: rgb(32, 32, 32);
+  font-size: 16pt;
+}
+
+#header-login:hover {
+  color: whitesmoke;
+}
+
+a:link {
+  text-decoration: none;
+  color: rgb(32, 32, 32);
+}
+
+a:visited {
+  text-decoration: none;
+  color: rgb(32, 32, 32);
+}
+
+#header-rhs {
+  margin: 5px;
+  right: 5px;
+  position: fixed;
+  display: grid;
+  grid-template-rows: 20px 60px 20px;
+  width: 160px;
+}
+
+#header-avatar {
+  height: 60px;
+  margin-left: 50px;
+  border-radius: 50%;
+}
+
+#header-greeting {
+  text-align: center;
+}
+#header-log-out {
+  text-align: center;
+}
+#header-log-out:hover {
+  text-align: center;
+  color: whitesmoke;
+  cursor: pointer;
 }
 
 main {
-  padding-top: 150px;
+  padding-top: 110px;
 }
 
 .article-filter-and-sort {
   width: 100%;
-  background-color: rgb(240, 105, 105);
+  background-color: rgb(32, 32, 32);
   height: 40px;
+  display: flex;
+  justify-content: center;
+  color: whitesmoke;
+  font-size: 14pt;
+}
+
+.article-filter-item {
+  border: 1px solid black;
+  padding: 5px;
 }
 
 ul {
@@ -115,8 +183,4 @@ ul {
 
 .number-of-comment-votes {
   grid-row: 1 / span 2;
-}
-
-#header-avatar {
-  height: 80px;
 }

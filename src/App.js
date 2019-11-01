@@ -13,7 +13,12 @@ class App extends Component {
   state = {
     isLoading: true,
     users: [],
-    loggedInUser: {}
+    loggedInUser: {
+      username: 'guest',
+      avatar_url:
+        'http://wpuploads.appadvice.com/wp-content/uploads/2014/10/facebookanon.jpg',
+      name: 'Guest'
+    }
   };
 
   render() {

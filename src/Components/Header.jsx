@@ -10,12 +10,12 @@ function Header({ loggedInUser, logUserOut }) {
 
   return (
     <header>
-      <Link to="/articles">
-        <h1>NC News</h1>
+      <Link to="/articles" id="a">
+        <h1 id="ES-News">{'<ES News />'}</h1>
       </Link>
       {loggedInUser.username !== 'guest' ? (
-        <div>
-          <p>Hi, {loggedInUser.name.split(' ')[0]}</p>
+        <div id="header-rhs">
+          <p id="header-greeting">Hi, {loggedInUser.name.split(' ')[0]}</p>
           <Link to={`/users/${loggedInUser.username}`}>
             <img
               src={loggedInUser.avatar_url}
@@ -23,12 +23,24 @@ function Header({ loggedInUser, logUserOut }) {
               id="header-avatar"
             />
           </Link>
-          <button onClick={handleLogOut}>log out</button>
+          <p id="header-log-out" onClick={handleLogOut}>
+            log out
+          </p>
         </div>
       ) : (
-        <Link to="/login">
-          <p id="header-login">log in</p>
-        </Link>
+        <div id="header-rhs">
+          <p id="header-greeting"></p>
+          <Link to={`/users/${loggedInUser.username}`}>
+            <img
+              src={loggedInUser.avatar_url}
+              alt="user avatar"
+              id="header-avatar"
+            />
+          </Link>
+          <Link to="/login">
+            <p id="header-login">log in</p>
+          </Link>
+        </div>
       )}
     </header>
   );

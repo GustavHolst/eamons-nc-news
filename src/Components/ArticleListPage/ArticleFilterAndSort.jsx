@@ -21,7 +21,7 @@ function ArticleFilterAndSort({
 
   return (
     <form className="article-filter-and-sort">
-      <label>
+      <label className="article-filter-item">
         Filter by topic:{' '}
         <select onChange={handleTopicChange}>
           {topics.map(topic => {
@@ -34,7 +34,7 @@ function ArticleFilterAndSort({
           })}
         </select>
       </label>
-      <label>
+      <label className="article-filter-item">
         Sort by:{' '}
         <select onChange={handleSortChange}>
           <option value="created_at">Date Posted</option>
@@ -42,7 +42,7 @@ function ArticleFilterAndSort({
           <option value="votes">Number of Votes</option>
         </select>
       </label>
-      <label>
+      <label className="article-filter-item">
         Order:{' '}
         <select onChange={handleOrderChange}>
           <option value="desc">High > Low</option>
