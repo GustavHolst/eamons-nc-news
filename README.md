@@ -31,4 +31,4 @@ The back-end repository is found here:
 https://github.com/GustavHolst/be-nc-news
 
 The hosted-version of the back-end API is found here:
-https://eamons-nc-news.herokuapp.com/
+https://eamons-nc-news.herokuapp.com/api

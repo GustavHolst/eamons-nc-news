@@ -81,7 +81,6 @@ class App extends Component {
 
   componentDidMount() {
     let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    console.log(loggedInUser);
     if (!loggedInUser) {
       loggedInUser = {
         username: 'guest',

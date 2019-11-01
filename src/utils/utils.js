@@ -6,5 +6,4 @@ export const setUserAsGuest = () => {
     name: 'Guest'
   };
   localStorage.setItem('loggedInUser', JSON.stringify(guest));
-  
 };

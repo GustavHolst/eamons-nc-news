@@ -99,7 +99,6 @@ class ArticleList extends Component {
       .getTopics()
       .then(topics => {
         this.setState({ topics: [{ slug: 'all' }, ...topics] });
-        localStorage.setItem('loggedInUser', JSON.stringify())
       })
       .catch(err => this.setState({ err }));
     if (this.props.topic) {
