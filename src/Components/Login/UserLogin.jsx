@@ -31,7 +31,9 @@ class UserLogin extends Component {
               <label>
                 Input your username: <input type="text" />
               </label>
-              <button type="submit">Enter</button>
+              <button id="enter-button" type="submit">
+                Enter
+              </button>
             </form>
             <Link to="/articles">
               <p>Enter as guest</p>

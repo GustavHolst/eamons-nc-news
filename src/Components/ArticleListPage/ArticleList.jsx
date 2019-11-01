@@ -40,53 +40,55 @@ class ArticleList extends Component {
 
     return (
       <main className="articles-page">
-        <ArticleFilterAndSort
-          topics={topics}
-          updateTopic={this.updateTopic}
-          updateSortBy={this.updateSortBy}
-          updateOrderBy={this.updateOrderBy}
-          topic={topic}
-        />
-        {loggedInUser.username === 'guest' ? (
-          <Link to="/login">
-            <p id="login-to-post-article">Log in to post your own article</p>
-          </Link>
-        ) : (
-          <div className="post-article-container">
-            <p
-              className="post-article-button"
-              onClick={this.toggleShowArticleAdder}
-            >
-              {showArticleAdder ? 'Close' : 'Post your own article'}
-            </p>
-          </div>
-        )}
-        {showArticleAdder ? (
-          <ArticleAdder
+        <section className="article-list-page">
+          <ArticleFilterAndSort
             topics={topics}
-            submitArticle={this.submitArticle}
-            toggleShowTopicAdder={this.toggleShowTopicAdder}
-            addNewTopic={this.addNewTopic}
+            updateTopic={this.updateTopic}
+            updateSortBy={this.updateSortBy}
+            updateOrderBy={this.updateOrderBy}
+            topic={topic}
           />
-        ) : null}
-        <ul className="article-cards-container">
-          {articles.map(article => {
-            return (
-              <ArticleCard
-                key={article.article_id}
-                article={article}
-                users={this.props.users}
-                requestDeleteArticle={this.requestDeleteArticle}
-                loggedInUser={loggedInUser}
-              />
-            );
-          })}
-        </ul>
-        <Pagination
-          p={p}
-          total_count={total_count}
-          changePage={this.changePage}
-        />
+          {loggedInUser.username === 'guest' ? (
+            <Link to="/login">
+              <p id="login-to-post-article">Log in to post your own article</p>
+            </Link>
+          ) : (
+            <div className="post-article-container">
+              <p
+                className="post-article-button"
+                onClick={this.toggleShowArticleAdder}
+              >
+                {showArticleAdder ? 'Close' : 'Post your own article'}
+              </p>
+            </div>
+          )}
+          {showArticleAdder ? (
+            <ArticleAdder
+              topics={topics}
+              submitArticle={this.submitArticle}
+              toggleShowTopicAdder={this.toggleShowTopicAdder}
+              addNewTopic={this.addNewTopic}
+            />
+          ) : null}
+          <ul className="article-cards-container">
+            {articles.map(article => {
+              return (
+                <ArticleCard
+                  key={article.article_id}
+                  article={article}
+                  users={this.props.users}
+                  requestDeleteArticle={this.requestDeleteArticle}
+                  loggedInUser={loggedInUser}
+                />
+              );
+            })}
+          </ul>
+          <Pagination
+            p={p}
+            total_count={total_count}
+            changePage={this.changePage}
+          />
+        </section>
       </main>
     );
   }
@@ -179,7 +181,7 @@ class ArticleList extends Component {
         this.setState(currentState => {
           const newArticles = [article, ...currentState.articles];
           newArticles.pop();
-          return { articles: newArticles };
+          return { articles: newArticles, showArticleAdder: false };
         });
       })
       .catch(err => this.setState({ err }));

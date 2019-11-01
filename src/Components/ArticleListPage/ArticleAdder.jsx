@@ -13,24 +13,29 @@ class ArticleAdder extends Component {
       <form className="article-adder" onSubmit={this.handleSubmit}>
         <label className="post-article-topic-select-label">
           <p className="post-article-label-text">Select a topic: </p>
-          <select
-            className="post-article-topic-select"
-            id="topic"
-            onChange={this.handleInputChange}
-          >
-            <option value="---">---</option>
-            {topics.map(topic => {
-              if (topic.slug !== 'all') {
-                return (
-                  <option value={topic.slug} key={topic.slug}>
-                    {topic.slug[0].toUpperCase() + topic.slug.slice(1)}
-                  </option>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </select>
+          <div className='post-article-topic-select-container'>
+            <select
+              className="post-article-topic-select"
+              id="topic"
+              onChange={this.handleInputChange}
+            >
+              <option value="---">---</option>
+              {topics.map(topic => {
+                if (topic.slug !== 'all') {
+                  return (
+                    <option value={topic.slug} key={topic.slug}>
+                      {topic.slug[0].toUpperCase() + topic.slug.slice(1)}
+                    </option>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </select>
+            {this.state.topic === '---' ? (
+              <p className="please-select-topic">Please select a topic</p>
+            ) : null}
+          </div>
         </label>
         <label className="post-article-title-label">
           <p className="post-article-label-text">Title: </p>
@@ -67,7 +72,6 @@ class ArticleAdder extends Component {
   handleSubmit = event => {
     if (this.state.topic === '---') {
       event.preventDefault();
-      alert('please select a topic');
     } else {
       event.preventDefault();
       this.props.submitArticle(
@@ -83,6 +87,7 @@ class ArticleAdder extends Component {
       });
     }
   };
+  
   handleInputChange = event => {
     const { value, id } = event.target;
     this.setState({ [id]: value });

@@ -13,7 +13,7 @@ class Voter extends Component {
     if (err) return <ErrorPage err={err} />;
 
     return (
-      <section>
+      <section id="voter">
         <h4>Votes</h4>
         {loggedInUser.username === 'guest' ? (
           <div>
@@ -31,14 +31,14 @@ class Voter extends Component {
               onClick={this.handleVote}
               disabled={voteChange === 1 ? true : false}
             >
-              Upvote
+              ↑
             </button>
             <p>{votes + voteChange}</p>
             <button
               onClick={this.handleVote}
               disabled={voteChange === -1 ? true : false}
             >
-              Downvote
+              ↓
             </button>
           </div>
         )}
@@ -48,7 +48,7 @@ class Voter extends Component {
 
   handleVote = event => {
     const { item_id, voteOn } = this.props;
-    const direction = event.target.textContent === 'Upvote' ? 1 : -1;
+    const direction = event.target.textContent === '↑' ? 1 : -1;
     if (voteOn === 'Article') {
       api
         .voteOnArticle(item_id, direction)
