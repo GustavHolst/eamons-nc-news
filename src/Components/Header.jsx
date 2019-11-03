@@ -32,12 +32,8 @@ function Header({ loggedInUser, logUserOut }) {
       ) : (
         <div className="header-rhs">
           <p className="header-greeting"></p>
-          <Link to={'/login'}>
-            <img
-              src={loggedInUser.avatar_url}
-              alt="user avatar"
-              id="header-avatar"
-            />
+          <Link className="header-login-container" to={'/login'}>
+            <p className="header-login">Log in</p>
           </Link>
         </div>
       )}

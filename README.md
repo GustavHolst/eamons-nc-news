@@ -32,3 +32,7 @@ https://github.com/GustavHolst/be-nc-news
 
 The hosted-version of the back-end API is found here:
 https://eamons-nc-news.herokuapp.com/api
+
+### Node
+
+Note that the minimum version of node required to run this project is v12.6.0

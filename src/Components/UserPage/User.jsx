@@ -43,9 +43,9 @@ class User extends PureComponent {
   componentDidMount() {
     const allUsernames = this.props.users.map(user => user.username);
     if (allUsernames.includes(this.props.username)) {
-      const thisUser = this.props.users.filter(
+      const thisUser = this.props.users.find(
         user => user.username === this.props.username
-      )[0];
+      );
       this.setState({ thisUser, isLoading: false });
     } else {
       this.setState({

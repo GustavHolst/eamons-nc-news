@@ -26,7 +26,7 @@ class Comments extends Component {
     if (err) return <ErrorPage err={err} />;
 
     return (
-      <section>
+      <section className="comments-page">
         <CommentAdder
           article_id={article_id}
           addComment={this.addComment}
@@ -98,12 +98,15 @@ class Comments extends Component {
   };
 
   addComment = body => {
+    const { loggedInUser, article_id } = this.props;
     api
-      .postComment(this.props.article_id, 'weegembump', body)
+      .postComment(article_id, loggedInUser.username, body)
       .then(newComment => {
         this.setState(currentState => {
           const newComments = [newComment, ...currentState.comments];
-          newComments.pop();
+          if (newComments.length > 10) {
+            newComments.pop();
+          }
           return { comments: newComments };
         });
       })

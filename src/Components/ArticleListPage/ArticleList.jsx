@@ -180,7 +180,9 @@ class ArticleList extends Component {
       .then(article => {
         this.setState(currentState => {
           const newArticles = [article, ...currentState.articles];
-          newArticles.pop();
+          if (newArticles.length > 10) {
+            newArticles.pop();
+          }
           return { articles: newArticles, showArticleAdder: false };
         });
       })

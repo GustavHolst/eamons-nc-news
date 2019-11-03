@@ -30,7 +30,7 @@ class App extends Component {
           logUserOut={this.logUserOut}
         />
         <Router>
-          <ErrorPage default />
+          <ErrorPage default err={{ status: 400, msg: 'Page not found' }} />
           <UserLogin
             path="/login"
             users={this.state.users}
@@ -97,9 +97,9 @@ class App extends Component {
   }
 
   logUserIn = username => {
-    const loggedInUser = this.state.users.filter(
+    const loggedInUser = this.state.users.find(
       user => user.username === username
-    )[0];
+    );
     localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
     this.setState({ loggedInUser });
     navigate('/articles');

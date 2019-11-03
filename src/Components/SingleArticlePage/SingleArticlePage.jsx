@@ -23,34 +23,48 @@ class SingleArticlePage extends Component {
     if (err) return <ErrorPage err={err} />;
 
     return (
-      <main className="single-article-page">
-        <ArticleHeader article={article} />
-        <Voter
-          item_id={article.article_id}
-          voteOn="Article"
-          votes={article.votes}
-          loggedInUser={loggedInUser}
-        />
-        <p>{article.body}</p>
-        {!showComments ? (
-          <Link to="comments">
-            <button onClick={this.toggleCommentDisplay}>Show Comments</button>
-          </Link>
-        ) : (
-          <Link to="">
-            <button onClick={this.toggleCommentDisplay}>Hide Comments</button>
-          </Link>
-        )}
+      <>
+        <main className="single-article-page">
+          <h1 className="article-title">{article.title}</h1>
+          <ArticleHeader article={article} />
+          <div className="SA-voter-container">
+            <Voter
+              item_id={article.article_id}
+              voteOn="Article"
+              votes={article.votes}
+              loggedInUser={loggedInUser}
+            />
+          </div>
+          <p className="article-body">{article.body}</p>
+          {!showComments ? (
+            <Link className="show-hide-comments" to="comments">
+              <button
+                className="show-hide-comments-button"
+                onClick={this.toggleCommentDisplay}
+              >
+                Show Comments
+              </button>
+            </Link>
+          ) : (
+            <Link className="show-hide-comments" to="">
+              <button
+                className="show-hide-comments-button"
+                onClick={this.toggleCommentDisplay}
+              >
+                Hide Comments
+              </button>
+            </Link>
+          )}
+        </main>
         <Router>
           <Comments
             path="/comments"
             article_id={article.article_id}
-            toggleCommentDisplay={this.toggleCommentDisplay}
             loggedInUser={loggedInUser}
             userChange={this.props.userChange}
           />
         </Router>
-      </main>
+      </>
     );
   }
 

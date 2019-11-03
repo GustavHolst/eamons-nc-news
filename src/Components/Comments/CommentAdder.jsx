@@ -10,18 +10,22 @@ class CommentAdder extends Component {
     const { loggedInUser } = this.props;
     if (loggedInUser.username !== 'guest') {
       return (
-        <form id="comment-form" onSubmit={this.handleSubmit}>
+        <form className="comment-form" onSubmit={this.handleSubmit}>
           <label>
-            Add your comment here:
-            <input
-              id="comment-body-input"
+            Add your comment here: <br />
+            <textarea
+              className="comment-body-input"
               type="text"
               value={this.state.comment_body}
               onChange={this.handleCommentChange}
               required
             />
           </label>
-          <button type="submit">Post Comment</button>
+          <div className="post-comment-button-container">
+            <button className="post-comment-button" type="submit">
+              Post Comment
+            </button>
+          </div>
         </form>
       );
     } else {

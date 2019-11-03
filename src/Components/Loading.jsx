@@ -2,8 +2,12 @@ import React from 'react';
 
 function Loading() {
   return (
-    <main>
-      <h3>Loading...</h3>
+    <main className="loading-page">
+      <img
+        id="loader"
+        src="http://www.xuefeiyang.com/assets/loader/loader.gif"
+        alt="loading"
+      />
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as api from '../api';
-import { Link } from '@reach/router';
 import ErrorPage from './ErrorPage';
 
 class Voter extends Component {
@@ -16,18 +15,11 @@ class Voter extends Component {
       <section id="voter">
         <h4>Votes</h4>
         {loggedInUser.username === 'guest' ? (
-          <div>
-            <p>{votes}</p>
-            <p>
-              <Link to="/login">
-                <i>Log in</i>
-              </Link>{' '}
-              to vote
-            </p>
-          </div>
+          <p>{votes}</p>
         ) : (
           <div>
             <button
+              className="vote-button-up"
               onClick={this.handleVote}
               disabled={voteChange === 1 ? true : false}
             >
@@ -35,6 +27,7 @@ class Voter extends Component {
             </button>
             <p>{votes + voteChange}</p>
             <button
+              className="vote-button-down"
               onClick={this.handleVote}
               disabled={voteChange === -1 ? true : false}
             >

@@ -13,7 +13,7 @@ class UserLogin extends Component {
     return (
       <main className="login">
         {loggedInUser.username !== 'guest' ? (
-          <div>
+          <div className="aleady-logged-in">
             <p>Hi, {loggedInUser.name.split(' ')[0]}</p>
             <img src={loggedInUser.avatar_url} alt="user avatar" />
             <p>You're already logged in. What would you like to do now?</p>
@@ -27,23 +27,29 @@ class UserLogin extends Component {
         ) : (
           <>
             {' '}
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Input your username: <input type="text" />
+            <form onSubmit={this.handleSubmit} className="login-form">
+              <label id="username-input-label">
+                <input
+                  className="username-input"
+                  type="text"
+                  placeholder="Username"
+                />
               </label>
               <button id="enter-button" type="submit">
                 Enter
               </button>
+              <Link to="/articles">
+                <button id="enter-as-guest">Enter as guest</button>
+              </Link>
             </form>
-            <Link to="/articles">
-              <p>Enter as guest</p>
-            </Link>
-            {this.state.usernameNotRecognised ? (
-              <p>
-                Username not recognised. Please try again or feel free to enter
-                as a guest
-              </p>
-            ) : null}
+            <div id="username-not-recognised-container">
+              {this.state.usernameNotRecognised ? (
+                <p id="username-not-recognised">
+                  Username not recognised. Please try again or feel free to
+                  enter as a guest
+                </p>
+              ) : null}
+            </div>
           </>
         )}
       </main>
