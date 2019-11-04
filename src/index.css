@@ -660,6 +660,14 @@ ul {
   width: 100%;
 }
 
+.error-page {
+  padding-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 480px) {
   .article-filter-and-sort {
     flex-direction: column;

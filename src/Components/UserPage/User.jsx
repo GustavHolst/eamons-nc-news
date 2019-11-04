@@ -77,7 +77,10 @@ class User extends PureComponent {
         .then(({ articles, total_count }) =>
           this.setState({ articles, total_count, isLoading: false })
         )
-        .catch(err => this.setState({ err, isLoading: false }));
+        .catch(err => {
+          err = { status: err.response.status, msg: err.response.data.msg };
+          this.setState({ err, isLoading: false });
+        });
     }
   }
 
@@ -115,7 +118,10 @@ class User extends PureComponent {
             };
           });
         })
-        .catch(err => this.setState({ err }));
+        .catch(err => {
+          err = { status: err.response.status, msg: err.response.data.msg };
+          this.setState({ err, isLoading: false });
+        });
     }
   };
 }

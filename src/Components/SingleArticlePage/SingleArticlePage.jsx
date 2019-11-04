@@ -75,7 +75,11 @@ class SingleArticlePage extends Component {
       .then(article => {
         this.setState({ article, isLoading: false });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
+
     if (this.props['*'].includes('comments')) {
       this.setState({ showComments: true });
     }
@@ -95,7 +99,10 @@ class SingleArticlePage extends Component {
           return { article: newArticle };
         });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
   };
 
   toggleCommentDisplay = () => {

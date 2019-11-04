@@ -2,7 +2,7 @@ import React from 'react';
 
 function ErrorPage({ err }) {
   return (
-    <main>
+    <main className="error-page">
       <h2>Error</h2>
       <h3>{err.status}</h3>
       <h3>

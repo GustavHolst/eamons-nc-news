@@ -80,7 +80,10 @@ class Comments extends Component {
       .then(({ comments, total_count }) => {
         this.setState({ comments, total_count, isLoading: false });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
   };
 
   changePage = event => {
@@ -110,7 +113,10 @@ class Comments extends Component {
           return { comments: newComments };
         });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
   };
 
   deleteComment = event => {
@@ -129,7 +135,10 @@ class Comments extends Component {
             };
           });
         })
-        .catch(err => this.setState({ err }));
+        .catch(err => {
+          err = { status: err.response.status, msg: err.response.data.msg };
+          this.setState({ err, isLoading: false });
+        });
     }
   };
 

@@ -100,7 +100,10 @@ class ArticleList extends Component {
       .then(topics => {
         this.setState({ topics: [{ slug: 'all' }, ...topics] });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
     if (this.props.topic) {
       this.setState({ topic: this.props.topic });
     }
@@ -127,7 +130,10 @@ class ArticleList extends Component {
         const { articles, total_count } = data;
         this.setState({ articles, total_count, isLoading: false });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
   };
 
   changePage = event => {
@@ -186,7 +192,10 @@ class ArticleList extends Component {
           return { articles: newArticles, showArticleAdder: false };
         });
       })
-      .catch(err => this.setState({ err }));
+      .catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
   };
 
   requestDeleteArticle = event => {
@@ -209,7 +218,10 @@ class ArticleList extends Component {
             };
           });
         })
-        .catch(err => this.setState({ err }));
+        .catch(err => {
+          err = { status: err.response.status, msg: err.response.data.msg };
+          this.setState({ err, isLoading: false });
+        });
     }
   };
 }

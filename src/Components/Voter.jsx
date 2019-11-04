@@ -50,7 +50,10 @@ class Voter extends Component {
             return { voteChange: currentState.voteChange + direction };
           });
         })
-        .catch(err => this.setState({ err }));
+        .catch(err => {
+          err = { status: err.response.status, msg: err.response.data.msg };
+          this.setState({ err, isLoading: false });
+        });
     } else {
       api
         .voteOnComment(item_id, direction)
@@ -59,7 +62,10 @@ class Voter extends Component {
             return { voteChange: currentState.voteChange + direction };
           });
         })
-        .catch(err => this.setState({ err }));
+        .catch(err => {
+          err = { status: err.response.status, msg: err.response.data.msg };
+          this.setState({ err, isLoading: false });
+        });
     }
   };
 }
