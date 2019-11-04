@@ -11,7 +11,7 @@ function Header({ loggedInUser, logUserOut }) {
   return (
     <header>
       <Link to="/articles" id="a">
-        <h1 id="ES-News">{'<ES News />'}</h1>
+        <h1 id="ES-News">ES News</h1>
       </Link>
       {loggedInUser.username !== 'guest' ? (
         <div className="header-rhs">

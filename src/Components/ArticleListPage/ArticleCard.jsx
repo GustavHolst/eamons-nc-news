@@ -46,7 +46,7 @@ function ArticleCard({ article, users, requestDeleteArticle, loggedInUser }) {
         </p>
       </div>
       <div className="article-card-topic">
-        <p className="article-card-topic">
+        <p>
           from:{' '}
           <Link to={`/articles/topics/${article.topic}`}>
             <b className="link">
