@@ -13,14 +13,28 @@ class UserLogin extends Component {
     return (
       <main className="login">
         {loggedInUser.username !== 'guest' ? (
-          <div className="aleady-logged-in">
-            <p>Hi, {loggedInUser.name.split(' ')[0]}</p>
-            <img src={loggedInUser.avatar_url} alt="user avatar" />
-            <p>You're already logged in. What would you like to do now?</p>
+          <div className="already-logged-in">
+            <h2 className="username">Hi, {loggedInUser.name.split(' ')[0]}</h2>
+            <img
+              id="login-avatar"
+              src={loggedInUser.avatar_url}
+              alt="user avatar"
+            />
+            <p className="login-text">
+              You're already logged in. What would you like to do now?
+            </p>
             <div>
-              <p onClick={logUserOut}>Log out</p>
+              <button
+                className="button"
+                id="log-out-button"
+                onClick={logUserOut}
+              >
+                Log out
+              </button>
               <Link to="/articles">
-                <p>Go back to Articles</p>
+                <button className="button" id="go-to-artciles-button">
+                  Go to Articles
+                </button>
               </Link>
             </div>
           </div>
@@ -35,16 +49,20 @@ class UserLogin extends Component {
                   placeholder="Username"
                 />
               </label>
-              <button id="enter-button" type="submit">
-                Enter
-              </button>
-              <Link to="/articles">
-                <button id="enter-as-guest">Enter as guest</button>
-              </Link>
+              <div className="login-form-button-container">
+                <Link to="/articles">
+                  <button className="button">Enter as guest</button>
+                </Link>
+              </div>
+              <div className="login-form-button-container">
+                <button className="button" type="submit">
+                  Enter
+                </button>
+              </div>
             </form>
             <div id="username-not-recognised-container">
               {this.state.usernameNotRecognised ? (
-                <p id="username-not-recognised">
+                <p className="login-text" id="username-not-recognised">
                   Username not recognised. Please try again or feel free to
                   enter as a guest
                 </p>

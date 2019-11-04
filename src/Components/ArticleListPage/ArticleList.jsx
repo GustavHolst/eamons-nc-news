@@ -50,7 +50,7 @@ class ArticleList extends Component {
           />
           {loggedInUser.username === 'guest' ? (
             <Link to="/login">
-              <p id="login-to-post-article">Log in to post your own article</p>
+              <p className="link" id="login-to-post-article">Log in to post your own article</p>
             </Link>
           ) : (
             <div className="post-article-container">

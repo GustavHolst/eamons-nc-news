@@ -7,17 +7,23 @@ function ArticleHeader({ article }) {
       <h2 className="article-author">
         Author:{' '}
         <Link to={`/users/${article.author}`}>
-          <p> {article.author}</p>
+          <b className="link" id="article-author">
+            {' '}
+            {article.author}
+          </b>
         </Link>
       </h2>
 
       <h3 className="article-posted-on">
         Posted on: {article.created_at.slice(0, 10)}
       </h3>
-      <p className="article-header-container">
+      <p>
         from:{' '}
         <Link to={`/articles/topics/${article.topic}`}>
-          <p> {article.topic[0].toUpperCase() + article.topic.slice(1)}</p>
+          <b className="link">
+            {' '}
+            {article.topic[0].toUpperCase() + article.topic.slice(1)}
+          </b>
         </Link>
       </p>
     </section>

@@ -9,11 +9,12 @@ class ArticleAdder extends Component {
 
   render() {
     const { topics } = this.props;
+    const selectedTopic = topics.find(topic => topic.slug === this.state.topic);
     return (
       <form className="article-adder" onSubmit={this.handleSubmit}>
         <label className="post-article-topic-select-label">
           <p className="post-article-label-text">Select a topic: </p>
-          <div className='post-article-topic-select-container'>
+          <div className="post-article-topic-select-container">
             <select
               className="post-article-topic-select"
               id="topic"
@@ -32,9 +33,11 @@ class ArticleAdder extends Component {
                 }
               })}
             </select>
-            {this.state.topic === '---' ? (
-              <p className="please-select-topic">Please select a topic</p>
-            ) : null}
+            <p className="topic-description">
+              {this.state.topic === '---'
+                ? 'Please select a topic'
+                : selectedTopic.description}
+            </p>
           </div>
         </label>
         <label className="post-article-title-label">
@@ -61,7 +64,7 @@ class ArticleAdder extends Component {
           />
         </label>
         <div className="submit-article-container">
-          <button className="submit-article" type="submit">
+          <button className="button" type="submit">
             Post
           </button>
         </div>
@@ -87,7 +90,7 @@ class ArticleAdder extends Component {
       });
     }
   };
-  
+
   handleInputChange = event => {
     const { value, id } = event.target;
     this.setState({ [id]: value });

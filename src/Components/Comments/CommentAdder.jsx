@@ -22,7 +22,7 @@ class CommentAdder extends Component {
             />
           </label>
           <div className="post-comment-button-container">
-            <button className="post-comment-button" type="submit">
+            <button className="button" type="submit">
               Post Comment
             </button>
           </div>
@@ -32,7 +32,7 @@ class CommentAdder extends Component {
       return (
         <p>
           <Link to="/login">
-            <i>Log in</i>
+            <b className="link">Log in</b>
           </Link>{' '}
           to get involved in the conversation
         </p>

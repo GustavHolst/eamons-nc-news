@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import * as api from './api';
 import User from './Components/UserPage/User';
 import ErrorPage from './Components/ErrorPage';
+import LoadingPage from './Components/Loading';
 
 class App extends Component {
   state = {
@@ -17,7 +18,7 @@ class App extends Component {
   };
 
   render() {
-    if (this.state.isLoading) return <p>Loading...</p>;
+    if (this.state.isLoading) return <LoadingPage />;
     const { loggedInUser } = this.state;
 
     return (

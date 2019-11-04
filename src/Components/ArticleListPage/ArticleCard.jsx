@@ -7,58 +7,58 @@ function ArticleCard({ article, users, requestDeleteArticle, loggedInUser }) {
     .avatar_url;
 
   return (
-    <li
-      className={
-        loggedInUser.username === article.author
-          ? 'LIU-article-card'
-          : 'article-card'
-      }
-    >
+    <li className="article-card">
       <div className="article-card-author-container">
         <img
           className="article-card-author-img"
           src={authorAvatar}
           alt="article author avatar"
         />
-
         <Link
           className="article-card-posted-by"
           to={`/users/${article.author}`}
         >
-          <p>{article.author}</p>
+          <p className="link">{article.author}</p>
         </Link>
-
         <p className="article-card-posted-on">
           {article.created_at.slice(0, 10)}
         </p>
       </div>
-
       <h2 className="article-card-title">
         <Link to={`/articles/${article.article_id}`}>
-          <p>{article.title}</p>
+          <p className="link">{article.title}</p>
         </Link>
       </h2>
-      <div className="article-card-votes-and-comms-container">
+      <div className="article-card-votes-container">
         <Voter
           item_id={article.article_id}
           voteOn="Article"
           votes={article.votes}
           loggedInUser={loggedInUser}
         />
-        <p className="comments">Comments: {article.comment_count}</p>
       </div>
-      <div className="article-card-topic-and-delete">
+      <div className="article-card-comments-container">
+        <p className="article-card-comments">
+          <span role="img" aria-label="comments">
+            💬
+          </span>
+          : {article.comment_count}
+        </p>
+      </div>
+      <div className="article-card-topic">
         <p className="article-card-topic">
           from:{' '}
           <Link to={`/articles/topics/${article.topic}`}>
-            <i>{article.topic[0].toUpperCase() + article.topic.slice(1)}</i>
+            <b className="link">
+              {article.topic[0].toUpperCase() + article.topic.slice(1)}
+            </b>
           </Link>
         </p>
       </div>
       <div className="delete-article-container">
         {loggedInUser.username === article.author ? (
           <button
-            className="delete-article"
+            className="delete-button"
             id={article.article_id}
             onClick={requestDeleteArticle}
           >

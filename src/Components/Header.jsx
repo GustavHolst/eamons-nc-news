@@ -33,7 +33,7 @@ function Header({ loggedInUser, logUserOut }) {
         <div className="header-rhs">
           <p className="header-greeting"></p>
           <Link className="header-login-container" to={'/login'}>
-            <p className="header-login">Log in</p>
+            <button className="button">Log in</button>
           </Link>
         </div>
       )}

@@ -13,7 +13,7 @@ class Voter extends Component {
 
     return (
       <section id="voter">
-        <h4>Votes</h4>
+        <h4 className="votes-header">Votes</h4>
         {loggedInUser.username === 'guest' ? (
           <p>{votes}</p>
         ) : (
