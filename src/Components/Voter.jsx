@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as api from '../api';
-import ErrorPage from './ErrorPage';
 
 class Voter extends Component {
   state = { voteChange: 0, err: null };
@@ -8,8 +7,6 @@ class Voter extends Component {
   render() {
     const { votes, loggedInUser } = this.props;
     const { voteChange, err } = this.state;
-
-    if (err) return <ErrorPage err={err} />;
 
     return (
       <section id="voter">
@@ -33,6 +30,7 @@ class Voter extends Component {
             >
               ↓
             </button>
+            {err ? <p>Error</p> : null}
           </div>
         )}
       </section>
@@ -55,17 +53,13 @@ class Voter extends Component {
           this.setState({ err, isLoading: false });
         });
     } else {
-      api
-        .voteOnComment(item_id, direction)
-        .then(() => {
-          this.setState(currentState => {
-            return { voteChange: currentState.voteChange + direction };
-          });
-        })
-        .catch(err => {
-          err = { status: err.response.status, msg: err.response.data.msg };
-          this.setState({ err, isLoading: false });
-        });
+      api.voteOnComment(item_id, direction).catch(err => {
+        err = { status: err.response.status, msg: err.response.data.msg };
+        this.setState({ err, isLoading: false });
+      });
+      this.setState(currentState => {
+        return { voteChange: currentState.voteChange + direction };
+      });
     }
   };
 }

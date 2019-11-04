@@ -31,7 +31,7 @@ class App extends Component {
           logUserOut={this.logUserOut}
         />
         <Router>
-          <ErrorPage default err={{ status: 400, msg: 'Page not found' }} />
+          <ErrorPage default err={{ status: 404, msg: 'Page not found' }} />
           <UserLogin
             path="/login"
             users={this.state.users}

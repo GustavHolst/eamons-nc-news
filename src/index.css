@@ -30,7 +30,7 @@ header {
   grid-template-columns: 3fr 1fr;
   background-color: #ff6b6b;
   align-items: center;
-  border-bottom: #292f36 solid 4px;
+  border-bottom: #292f36 solid 2px;
 }
 
 #ES-News {
